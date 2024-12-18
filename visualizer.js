@@ -80,6 +80,12 @@ function setControls() {
   console.log("Orbit controls added to the scene");
 }
 
+
+//
+// Place node code for placing node 
+//
+
+
 function placeNode(nodeObject, x, y, z) {
   const nodeMesh = new THREE.Mesh(nodeObject.geometry, nodeObject.material);
   nodeMesh.position.set(x, y, z);
@@ -91,109 +97,354 @@ function placeNode(nodeObject, x, y, z) {
   scene.add(nodeMesh);
   console.log(`Node "${nodeMesh.name}" placed at (${x}, ${y}, ${z})`);
 }
+async function loadAndPlotNodes(jsonFile) {
+  try {
+    if (!scene) setScene(); // Ensure the scene is initialized before adding nodes
 
+    const response = await fetch(jsonFile);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
+    const data = await response.json();
+    if (!data.layers) throw new Error("Invalid JSON structure: Missing 'layers' property.");
 
+    console.log(`Loaded JSON: ${data.title}`);
+
+    clearScene(); // Safely clear the scene
+    nodes.length = 0;
+    Object.keys(nodeMeshes).forEach((key) => delete nodeMeshes[key]);
+    plottedEdges.clear();
+
+    currentBook = new Book(data.title);
+    data.layers.forEach((layer) => {
+      if (!layer.nodes) return;
+      layer.nodes.forEach((nodeData) => {
+        const node = new Node(
+          nodeData.name,
+          0.5,
+          nodeData.color,
+          nodeData.relationships || [],
+          { layer: layer.layer_number }
+        );
+        placeNode(node, nodeData.x, nodeData.y, nodeData.z);
+        currentBook.addNodeToLayer(layer.layer_number, node);
+      });
+    });
+
+    plotAllEdges();
+    currentBook.displayNodes();
+
+    const totalChapters = Object.keys(currentBook.layers).length;
+    updateChapterScrollbar(totalChapters); // Update the scrollbar dynamically
+  } catch (error) {
+    console.error("Error loading or parsing JSON:", error);
+  }
+}
+
+function updateChapterScrollbar(totalChapters) {
+  const scrollBar = document.getElementById("chapter-scrollbar");
+  if (scrollBar) {
+    scrollBar.max = totalChapters - 1; // Set max to total chapters minus 1
+    scrollBar.value = 0; // Reset to first chapter
+    console.log(`Scrollbar updated: 0 to ${scrollBar.max}`);
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Function to create a wavy friendship edge
 // Updated plotAllEdgesFromBook function to process layers and edges
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+// Master Edge Plotting Configuration
+const EDGE_PLOT_FUNCTIONS = {
+  0: { color: 0x00ff00, plot: plotFriendshipEdge }, // Friendship
+  1: { color: 0x000000, plot: plotFamilyEdge },     // Family
+  2: { color: 0xffc0cb, plot: plotRomanticEdge },   // Romantic
+  3: { color: 0xff0000, plot: plotEnemiesEdge },    // Enemies
+};
+
+// Global Edge Tracker
+
+// Master Edge Plotting Function
+function plotEdge(sourceMesh, targetMesh, emotions) {
+  emotions.forEach((weight, index) => {
+    if (weight > 0 && EDGE_PLOT_FUNCTIONS[index]) {
+      const edgeKey = `${sourceMesh.name}-${targetMesh.name}-${index}`;
+      if (plottedEdges.has(edgeKey)) return; // Avoid duplicates
+
+      EDGE_PLOT_FUNCTIONS[index].plot(sourceMesh, targetMesh);
+      plottedEdges.add(edgeKey);
+    }
+  });
+}
+
+// Plot All Edges from Book
 function plotAllEdgesFromBook(book) {
   console.log(`Plotting edges for book: ${book.title}`);
 
   Object.entries(book.layers).forEach(([layerNumber, nodesInLayer]) => {
     console.log(`Processing Layer ${layerNumber}...`);
 
-    // For each source node in the current layer
     nodesInLayer.forEach((sourceNode) => {
       const sourceMesh = nodeMeshes[`${sourceNode.name}_Z${layerNumber}`];
       if (!sourceMesh) return;
 
-      // Process all relationships of the current node
       sourceNode.relationships.forEach((rel) => {
-        const targetMesh = nodeMeshes[`${rel.target}_Z${layerNumber}`]; // Same layer target
+        const targetMesh = nodeMeshes[`${rel.target}_Z${layerNumber}`];
         if (!targetMesh) return;
 
-        // Plot edges based on emotion indices
-        rel.emotions.forEach((weight, index) => {
-          if (weight > 0) {
-            const edgeKey = `${sourceMesh.name}-${targetMesh.name}-${index}`;
-            if (plottedEdges.has(edgeKey)) return; // Avoid duplicates
-
-            if (index === 0) {
-              plotFriendshipEdge(sourceMesh, targetMesh);
-            } else if (index === 3) {
-              plotEnemiesEdge(sourceMesh, targetMesh);
-            }
-            plottedEdges.add(edgeKey);
-          }
-        });
+        plotEdgeWithOffset(sourceMesh, targetMesh, rel.emotions);
       });
     });
   });
 }
 
-
-// Function to plot Friendship edges using a Bézier curve
+// Edge Plotting Functions
 function plotFriendshipEdge(sourceMesh, targetMesh) {
-  const amplitude = 1.5;
+  plotQuadraticBezierEdge(sourceMesh, targetMesh, 0x00ff00, 1.5); // Bright Green
+}
+
+function plotEnemiesEdge(sourceMesh, targetMesh) {
+  plotJaggedEdge(sourceMesh, targetMesh, 0xff0000); // Red
+}
+
+function plotFamilyEdge(sourceMesh, targetMesh) {
+  plotThickGlowingLine(sourceMesh, targetMesh, 0x000000); // Black
+}
+
+function plotRomanticEdge(sourceMesh, targetMesh) {
+  plotDashedLine(sourceMesh, targetMesh, 0xffc0cb); // Soft Pink
+}
+
+// Core Edge Drawing Helpers
+function plotSineWaveEdge(sourceMesh, targetMesh, color, amplitude = 1.5) {
   const points = [];
   const numPoints = 50;
-
   const sourcePos = sourceMesh.position;
   const targetPos = targetMesh.position;
 
   for (let t = 0; t <= 1; t += 1 / numPoints) {
     const x = THREE.MathUtils.lerp(sourcePos.x, targetPos.x, t);
-    const z = THREE.MathUtils.lerp(sourcePos.z, targetPos.z, t);
-    const y = sourcePos.y + amplitude * Math.sin(2 * Math.PI * t);
+    const y = THREE.MathUtils.lerp(sourcePos.y, targetPos.y, t) + amplitude * Math.sin(2 * Math.PI * t);
+    const z = sourcePos.z; // Fix z at the source's z-position
     points.push(new THREE.Vector3(x, y, z));
   }
 
   const curve = new THREE.CatmullRomCurve3(points);
   const geometry = new THREE.TubeGeometry(curve, 64, 0.05, 8, false);
-  const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // Bright Green
-  const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
+  const material = new THREE.MeshBasicMaterial({ color });
+  scene.add(new THREE.Mesh(geometry, material));
 }
 
-
-// Function to plot Enemies edges using a wiggly line
-function plotEnemiesEdge(sourceMesh, targetMesh) {
-  const points = [];
-  const numSegments = 50;
-
+function plotQuadraticBezierEdge(sourceMesh, targetMesh, color, offset = 2) {
   const sourcePos = sourceMesh.position;
   const targetPos = targetMesh.position;
 
-  for (let i = 0; i <= numSegments; i++) {
-    const t = i / numSegments;
+  // Calculate the control point in the middle, offset along Y-axis
+  const controlPoint = new THREE.Vector3(
+    (sourcePos.x + targetPos.x) / 2,    // Midpoint X
+    (sourcePos.y + targetPos.y) / 2 + offset, // Offset upward in Y
+    sourcePos.z // Keep Z fixed
+  );
+
+  // Create a Quadratic Bézier Curve on the X-Y plane
+  const curve = new THREE.QuadraticBezierCurve3(
+    new THREE.Vector3(sourcePos.x, sourcePos.y, sourcePos.z), // Start point
+    controlPoint, // Control point
+    new THREE.Vector3(targetPos.x, targetPos.y, targetPos.z)  // End point
+  );
+
+  // Generate points for the curve
+  const points = curve.getPoints(50);
+
+  // Create geometry and material for the curve
+  const geometry = new THREE.BufferGeometry().setFromPoints(points);
+  const material = new THREE.LineBasicMaterial({ color: color, linewidth: 2 });
+
+  // Create a line object and add it to the scene
+  const bezierLine = new THREE.Line(geometry, material);
+  scene.add(bezierLine);
+}
+
+function plotThickGlowingLine(sourceMesh, targetMesh, color = 0x9400D3, lineWidth = 0.1) {
+  const points = [
+    sourceMesh.position.clone(),
+    targetMesh.position.clone(),
+  ];
+
+  // Geometry for the straight line
+  const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+  // Material with glowing effect (emissive and bright purple)
+  const material = new THREE.MeshBasicMaterial({
+    color: color, // Purple color
+    transparent: true,
+    opacity: 0.9, // Slight transparency
+    emissive: color, // Emissive for glowing effect
+    emissiveIntensity: 0.8, // Adjust glow strength
+  });
+
+  // Create a tube geometry for thickness
+  const curve = new THREE.LineCurve3(points[0], points[1]);
+  const tubeGeometry = new THREE.TubeGeometry(curve, 20, lineWidth, 8, false);
+
+  const lineMesh = new THREE.Mesh(tubeGeometry, material);
+  scene.add(lineMesh);
+}
+
+function plotFamilyEdge(sourceMesh, targetMesh) {
+  plotThickGlowingLine(sourceMesh, targetMesh);
+}
+
+
+function plotJaggedEdge(sourceMesh, targetMesh, color) {
+  const points = [];
+  const segments = 20;
+  const sourcePos = sourceMesh.position;
+  const targetPos = targetMesh.position;
+
+  for (let i = 0; i <= segments; i++) {
+    const t = i / segments;
     const x = THREE.MathUtils.lerp(sourcePos.x, targetPos.x, t);
-    const y = sourcePos.y + (i % 2 === 0 ? 0.2 : -0.2); // Alternating jagged Y
+    const y = sourcePos.y + (i % 2 === 0 ? 0.2 : -0.2);
     const z = THREE.MathUtils.lerp(sourcePos.z, targetPos.z, t);
     points.push(new THREE.Vector3(x, y, z));
   }
 
   const geometry = new THREE.BufferGeometry().setFromPoints(points);
-  const material = new THREE.LineBasicMaterial({ color: 0xff0000 }); // Red
+  const material = new THREE.LineBasicMaterial({ color });
+  scene.add(new THREE.Line(geometry, material));
+}
+
+function plotStraightLine(sourceMesh, targetMesh, color) {
+  const points = [
+    sourceMesh.position.clone(),
+    targetMesh.position.clone(),
+  ];
+  const geometry = new THREE.BufferGeometry().setFromPoints(points);
+  const material = new THREE.LineBasicMaterial({ color });
+  scene.add(new THREE.Line(geometry, material));
+}
+
+function plotDashedLine(sourceMesh, targetMesh, color) {
+  const points = [
+    sourceMesh.position.clone(),
+    targetMesh.position.clone(),
+  ];
+  const geometry = new THREE.BufferGeometry().setFromPoints(points);
+  const material = new THREE.LineDashedMaterial({ color, dashSize: 0.5, gapSize: 0.2 });
   const line = new THREE.Line(geometry, material);
+  line.computeLineDistances();
   scene.add(line);
 }
 
 
 
-// Master function to initialize the plotting process after loading nodes
-function plotAllEdges() {
-  if (currentBook) {
-    plotAllEdgesFromBook(currentBook);
-  } else {
-    console.error("No book data loaded to plot edges.");
-  }
+
+
+////////////////////////////////////////
+// 
+//////////////////////////////////////
+////////////////////////////////////// 
+const EDGE_OFFSET = 0.2; // Constant for offset spacing
+const plottedEdges = new Map(); // Map to track edges and prevent overlap
+
+function plotEdgeWithOffset(sourceMesh, targetMesh, emotions) {
+  emotions.forEach((weight, index) => {
+    if (weight > 0 && EDGE_PLOT_FUNCTIONS[index]) {
+      const edgeKey = `${sourceMesh.name}-${targetMesh.name}-${index}`;
+      const reverseKey = `${targetMesh.name}-${sourceMesh.name}-${index}`;
+
+      // Check for duplicate edges
+      const existingCount = plottedEdges.get(edgeKey) || 0;
+      plottedEdges.set(edgeKey, existingCount + 1);
+
+      const offset = existingCount * EDGE_OFFSET; // Apply offset per duplicate edge
+
+      // Adjust positions with offset
+      const sourcePos = sourceMesh.position.clone();
+      const targetPos = targetMesh.position.clone();
+
+      // Offset positions slightly in X and Y
+      sourcePos.x += existingCount % 2 === 0 ? offset : -offset; // Alternate direction
+      targetPos.x += existingCount % 2 === 0 ? offset : -offset;
+
+      sourcePos.y += existingCount % 2 === 1 ? offset : -offset; // Alternate direction
+      targetPos.y += existingCount % 2 === 1 ? offset : -offset;
+
+      // Call the appropriate plot function
+      EDGE_PLOT_FUNCTIONS[index].plot(
+        { position: sourcePos },
+        { position: targetPos },
+        EDGE_PLOT_FUNCTIONS[index].color
+      );
+    }
+  });
 }
 
 
 
+////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////// 
+////////////////////////////////////// //////////////////////////////////////
+////////////////////////////////////// 
+// Function to dynamically create the chapter navigation bar
+function createChapterNav(totalChapters) {
+  const nav = document.getElementById("chapter-nav");
+  nav.innerHTML = ""; // Clear existing chapter squares
 
-// Function to load and parse JSON, then plot nodes and friendship edges
-// Function to load and parse JSON, then plot nodes and edges
+  for (let i = 0; i < totalChapters; i++) {
+    const square = document.createElement("div");
+    square.classList.add("chapter-square");
+    square.dataset.chapter = i; // Store chapter index
+    square.textContent = i + 1; // Display chapter number
+
+    // Event listener to move the camera to the corresponding Z-level
+    square.addEventListener("click", () => {
+      moveCameraToChapter(i);
+    });
+
+    nav.appendChild(square);
+  }
+}
+
+// Function to smoothly move the camera to a chapter's Z-level
+const CAMERA_DISTANCE = 10; // Distance along Z-axis to view the chapter
+const CAMERA_HEIGHT = 5;    // Height adjustment to match node positions
+
+// Function to smoothly move and angle the camera to focus on the selected chapter plane
+function moveCameraToChapter(chapterIndex) {
+  const yLevel = chapterIndex * 10; // Each chapter is spaced by 10 units on the Y-axis
+
+  if (yLevel !== undefined) {
+    const cameraDistance = 20; // Distance away to get a clear view
+    const cameraHeight = yLevel + 10; // Raise the camera slightly above the plane
+
+    // Set the camera's position
+    camera.position.set(15, cameraHeight, cameraDistance); // Shift on X, go up in Y, and keep Z at distance
+    camera.lookAt(0, yLevel, 0); // Look at the center of the chapter plane
+
+    console.log(`Camera moved to chapter ${chapterIndex} at Y-level: ${yLevel}`);
+  } else {
+    console.error("Invalid chapter index or Z-level missing.");
+  }
+}
+
+
+const chapterLevels = []; // Holds Z-levels for each chapter
+
+function updateChapterLevels(book) {
+  chapterLevels.length = 0; // Reset previous levels
+  Object.keys(book.layers).forEach((layerNumber) => {
+    const zLevel = parseInt(layerNumber) * 10; // Adjust Z-level spacing, e.g., every 10 units
+    chapterLevels.push(zLevel);
+  });
+}
+
+
+
+// Master function to load and plot nodes for the book
 async function loadAndPlotNodes(jsonFile) {
   try {
     const response = await fetch(jsonFile);
@@ -209,7 +460,7 @@ async function loadAndPlotNodes(jsonFile) {
 
     console.log(`Loaded JSON: ${data.title}`);
 
-    clearScene(); // Safely clear the scene
+    clearScene(); // Clear existing nodes
     nodes.length = 0; // Reset nodes array
     Object.keys(nodeMeshes).forEach((key) => delete nodeMeshes[key]);
     plottedEdges.clear();
@@ -234,230 +485,46 @@ async function loadAndPlotNodes(jsonFile) {
     plotAllEdges();
     currentBook.displayNodes();
 
+    // Update chapter navigation bar
+    const totalChapters = Object.keys(currentBook.layers).length;
+    createChapterNav(totalChapters);
+
   } catch (error) {
     console.error("Error loading or parsing JSON:", error);
   }
 }
 
+// Modified function to load a selected book
+function loadSelectedBook() {
+  const dropdown = document.getElementById("book-selector");
+  const selectedPath = dropdown.value;
 
-// Function to clear the existing scene
-
-// **1. Friendship Edge** - Bright Green Sine Wave
-function drawFriendshipEdge(sourceMesh, targetMesh, invert = false) {
-  const amplitude = 2;
-  const points = [];
-  const numPoints = 50;
-
-  const sourcePos = sourceMesh.position;
-  const targetPos = targetMesh.position;
-
-  for (let t = 0; t <= 1; t += 1 / numPoints) {
-    const x = THREE.MathUtils.lerp(sourcePos.x, targetPos.x, t);
-    const z = THREE.MathUtils.lerp(sourcePos.z, targetPos.z, t);
-    const y =
-      THREE.MathUtils.lerp(sourcePos.y, targetPos.y, t) +
-      amplitude * Math.sin(2 * Math.PI * t) * (invert ? -1 : 1);
-
-    points.push(new THREE.Vector3(x, y, z));
+  if (selectedPath) {
+    console.log(`Fetching JSON file: ${selectedPath}`);
+    clearScene();
+    loadAndPlotNodes(selectedPath); // Pass the valid file path
+  } else {
+    alert("Please select a book from the Library.");
   }
-
-  const curve = new THREE.CatmullRomCurve3(points);
-  const geometry = new THREE.TubeGeometry(curve, 50, 0.05, 8, false);
-  const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // Bright Green
-  const edgeMesh = new THREE.Mesh(geometry, material);
-  scene.add(edgeMesh);
 }
 
-function drawFamilyEdge(sourceMesh, targetMesh) {
-  const sourcePos = sourceMesh.position;
-  const targetPos = targetMesh.position;
-
-  const points = [
-    new THREE.Vector3(sourcePos.x, sourcePos.y, sourcePos.z),
-    new THREE.Vector3(targetPos.x, targetPos.y, targetPos.z),
-  ];
-
-  const geometry = new THREE.BufferGeometry().setFromPoints(points);
-
-  const material = new THREE.LineBasicMaterial({
-    color: 0x000000, // Black
-    linewidth: 2,
-    opacity: 0.5,
-    transparent: true,
-  });
-
-  const line = new THREE.Line(geometry, material);
-  scene.add(line);
-}
-
-function drawRomanticInterestEdge(sourceMesh, targetMesh) {
-  const sourcePos = sourceMesh.position;
-  const targetPos = targetMesh.position;
-
-  const points = [
-    new THREE.Vector3(sourcePos.x, sourcePos.y, sourcePos.z),
-    new THREE.Vector3(targetPos.x, targetPos.y, targetPos.z),
-  ];
-
-  const geometry = new THREE.BufferGeometry().setFromPoints(points);
-
-  const material = new THREE.LineDashedMaterial({
-    color: 0xffc0cb, // Soft Pink
-    dashSize: 0.5,
-    gapSize: 0.2,
-    linewidth: 2,
-  });
-
-  const line = new THREE.Line(geometry, material);
-  line.computeLineDistances();
-  scene.add(line);
 
 
-}
-function drawEnemiesEdge(sourceMesh, targetMesh) {
-  const sourcePos = sourceMesh.position;
-  const targetPos = targetMesh.position;
 
-  const points = [];
-  const numSegments = 20;
 
-  for (let i = 0; i <= numSegments; i++) {
-    const t = i / numSegments;
-    const x = THREE.MathUtils.lerp(sourcePos.x, targetPos.x, t);
-    const y =
-      sourcePos.y +
-      (i % 2 === 0 ? 0.2 : -0.2); // Jagged effect
-    const z = THREE.MathUtils.lerp(sourcePos.z, targetPos.z, t);
+//////////////////////////////////////
+////////////////////////////////////// //////////////////////////////////////
+////////////////////////////////////// 
 
-    points.push(new THREE.Vector3(x, y, z));
+
+// Master Function to Initialize Edge Plotting
+function plotAllEdges() {
+  if (currentBook) {
+    plotAllEdgesFromBook(currentBook);
+  } else {
+    console.error("No book data loaded to plot edges.");
   }
-
-  const geometry = new THREE.BufferGeometry().setFromPoints(points);
-  const material = new THREE.LineBasicMaterial({
-    color: 0xff0000, // Deep Red
-    linewidth: 2,
-    opacity: 0.8,
-    transparent: true,
-  });
-
-  const line = new THREE.Line(geometry, material);
-  scene.add(line);
-
-  // Flicker animation
-  function flicker() {
-    material.opacity = Math.random() * 0.6 + 0.4;
-    requestAnimationFrame(flicker);
-  }
-  flicker();
 }
-
-
-
-
-// Global Edge Tracker
-const plottedEdges = new Set(); // To track edges and avoid duplicates
-
-// Emotion Colors
-const emotionColors = {
-  0: 0x00ff00, // Friendship: Bright Green
-  1: 0x000000, // Family: Black
-  2: 0xffc0cb, // Love: Soft Pink
-  3: 0xff0000, // Enemies: Red
-};
-
-// Bézier Quadratic Curve Function
-function plotBezierQuadratic(source, target, color, flip = false, offset = 0.5) {
-  const sourcePos = source.position;
-  const targetPos = target.position;
-
-  // Midpoint as control point
-  const controlX = (sourcePos.x + targetPos.x) / 2;
-  const controlY = (sourcePos.y + targetPos.y) / 2 + (flip ? offset : -offset);
-  const controlPoint = new THREE.Vector3(controlX, controlY, sourcePos.z);
-
-  // Create a Bézier Curve
-  const curve = new THREE.QuadraticBezierCurve3(
-    new THREE.Vector3(sourcePos.x, sourcePos.y, sourcePos.z), // Start
-    controlPoint, // Control Point
-    new THREE.Vector3(targetPos.x, targetPos.y, targetPos.z) // End
-  );
-
-  const points = curve.getPoints(50);
-  const geometry = new THREE.BufferGeometry().setFromPoints(points);
-  const material = new THREE.LineBasicMaterial({ color });
-  const bezierLine = new THREE.Line(geometry, material);
-  scene.add(bezierLine);
-}
-
-// Straight Line Function
-function plotStraightLine(source, target, color, offset = 0.3, flip = false) {
-  const sourcePos = source.position;
-  const targetPos = target.position;
-
-  // Offset perpendicular direction
-  const direction = new THREE.Vector3()
-    .subVectors(targetPos, sourcePos)
-    .normalize();
-  const offsetVector = new THREE.Vector3(-direction.y, direction.x, 0).multiplyScalar(offset);
-
-  const start = new THREE.Vector3(
-    sourcePos.x + (flip ? -offsetVector.x : offsetVector.x),
-    sourcePos.y + (flip ? -offsetVector.y : offsetVector.y),
-    sourcePos.z
-  );
-
-  const end = new THREE.Vector3(
-    targetPos.x + (flip ? -offsetVector.x : offsetVector.x),
-    targetPos.y + (flip ? -offsetVector.y : offsetVector.y),
-    targetPos.z
-  );
-
-  const points = [start, end];
-  const geometry = new THREE.BufferGeometry().setFromPoints(points);
-  const material = new THREE.LineBasicMaterial({ color });
-  const line = new THREE.Line(geometry, material);
-  scene.add(line);
-}
-
-// Wiggly Line Function
-function plotWigglyLine(source, target, color, amplitude = 0.3, frequency = 4, flip = false) {
-  const sourcePos = source.position;
-  const targetPos = target.position;
-  const points = [];
-  const segments = 50;
-
-  for (let i = 0; i <= segments; i++) {
-    const t = i / segments;
-    const x = THREE.MathUtils.lerp(sourcePos.x, targetPos.x, t);
-    const y =
-      THREE.MathUtils.lerp(sourcePos.y, targetPos.y, t) +
-      amplitude * Math.sin(frequency * Math.PI * t) * (flip ? -1 : 1);
-    const z = sourcePos.z;
-    points.push(new THREE.Vector3(x, y, z));
-  }
-
-  const geometry = new THREE.BufferGeometry().setFromPoints(points);
-  const material = new THREE.LineBasicMaterial({ color });
-  const wigglyLine = new THREE.Line(geometry, material);
-  scene.add(wigglyLine);
-}
-
-// Edge Plotting Function
-function plotEdge(sourceMesh, targetMesh, emotions) {
-  const edgeTypes = [
-    { index: 0, color: 0x00ff00, plot: plotFriendshipEdge },
-    { index: 3, color: 0xff0000, plot: plotEnemiesEdge },
-  ];
-
-  emotions.forEach((weight, index) => {
-    if (weight > 0) {
-      const edgeType = edgeTypes.find((e) => e.index === index);
-      if (edgeType) edgeType.plot(sourceMesh, targetMesh);
-    }
-  });
-}
-
-
 
 
 
@@ -568,13 +635,21 @@ function clearScene() {
 // Initialize dropdown and attach event listeners
 // Initialize dropdown and attach event listeners
 document.addEventListener("DOMContentLoaded", () => {
-  populateLibraryDropdown(); // Correct function name to populate the dropdown
+  populateLibraryDropdown(); // Populate the dropdown menu
 
   const loadButton = document.getElementById("load-book");
   loadButton.addEventListener("click", () => {
     loadSelectedBook();
   });
 
-  // Initialize the scene on page load with a placeholder JSON or clear scene
+  // Scrollbar event listener
+  const scrollBar = document.getElementById("chapter-scrollbar");
+  if (scrollBar) {
+    scrollBar.addEventListener("input", (e) => {
+      const targetChapterIndex = parseInt(e.target.value, 10);
+      moveCameraToChapter(targetChapterIndex);
+    });
+  }
+
   make_scene("./book_json_files/Alice's_Adventures_in_Wonderland.json");
 });
