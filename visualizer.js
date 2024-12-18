@@ -158,11 +158,19 @@ function updateChapterScrollbar(totalChapters) {
 
 // Master Edge Plotting Configuration
 const EDGE_PLOT_FUNCTIONS = {
-  0: { color: 0x00ff00, plot: plotFriendshipEdge }, // Friendship
-  1: { color: 0x000000, plot: plotFamilyEdge },     // Family
-  2: { color: 0xffc0cb, plot: plotRomanticEdge },   // Romantic
-  3: { color: 0xff0000, plot: plotEnemiesEdge },    // Enemies
+  0: { color: 0x00ff00, plot: plotFriendshipEdge },        // Friendship
+  1: { color: 0x000000, plot: plotFamilyEdge },            // Family
+  2: { color: 0xffc0cb, plot: plotRomanticEdge },          // Romantic
+  3: { color: 0xff0000, plot: plotEnemiesEdge },           // Enemies
+  4: { color: 0x6a0dad, plot: plotPoliticalAlignmentEdge },// Political Alignment
+  5: { color: 0xffd700, plot: plotEmploymentRelationshipEdge }, // Employment Relationship
+  6: { color: 0xc0c0c0, plot: plotSocialStandingEdge },    // Social Standing
+  7: { color: 0xffffff, plot: plotTrustEdge },             // Trust
+  8: { color: 0xffd700, plot: plotRespectEdge },           // Respect
+  9: { color: 0x87cefa, plot: plotCommunicationEdge },     // Communication
 };
+
+
 
 // Global Edge Tracker
 
@@ -199,6 +207,67 @@ function plotAllEdgesFromBook(book) {
     });
   });
 }
+function findNodePositionOnLowerLevel(nodeName, currentLayer) {
+  // Start checking from the layer below the current one
+  for (let layer = currentLayer - 1; layer >= 0; layer--) {
+    const targetMesh = nodeMeshes[`${nodeName}_Z${layer}`];
+    if (targetMesh) {
+      return targetMesh.position.clone(); // Return the position
+    }
+  }
+
+  // Fallback: Return the current node's position shifted down a Z level
+  console.warn(`Node "${nodeName}" not found on lower levels. Falling back.`);
+  return new THREE.Vector3(0, -CHAPTER_SPACING, 0); // Default fallback
+}
+function plotPastExperienceEdge(sourceMesh, targetMesh, relationshipType, scale, currentLayer) {
+  // Determine color based on relationship type
+  const color = relationshipType === "Shared History" ? 0x00ff00 : 0xff0000; // Green for good, Red for bad
+
+  // Find target position on the lower Z-level
+  const lowerTargetPos = findNodePositionOnLowerLevel(targetMesh.name.split('_')[0], currentLayer);
+  const sourcePos = sourceMesh.position;
+
+  // If fallback, shift down the target position
+  if (!lowerTargetPos) {
+    lowerTargetPos.copy(targetMesh.position);
+    lowerTargetPos.y -= CHAPTER_SPACING; // Shift down by chapter spacing
+  }
+
+  // Geometry for dotted line
+  const points = [sourcePos.clone(), lowerTargetPos];
+  const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+  // Dashed Line Material
+  const material = new THREE.LineDashedMaterial({
+    color: color,
+    dashSize: 0.5, // Length of dashes
+    gapSize: 0.2,  // Space between dashes
+    linewidth: scale * 0.1, // Line thickness proportional to scale
+  });
+
+  // Create the line and compute dash distances
+  const line = new THREE.Line(geometry, material);
+  line.computeLineDistances();
+
+  // Add to the scene
+  scene.add(line);
+
+  console.log(`Plotted PE edge (${relationshipType}) between ${sourceMesh.name} and ${targetMesh.name}`);
+}
+function plotEdgeWithOffset(sourceMesh, targetMesh, emotions, currentLayer) {
+  emotions.forEach((weight, index) => {
+    if (weight > 0) {
+      if (index === 0) { // Shared History (Good - index 0)
+        plotPastExperienceEdge(sourceMesh, targetMesh, "Shared History", weight, currentLayer);
+      } else if (index === 1) { // Conflict History (Bad - index 1)
+        plotPastExperienceEdge(sourceMesh, targetMesh, "Conflict History", weight, currentLayer);
+      } else {
+        console.warn(`Unhandled emotion index: ${index}`);
+      }
+    }
+  });
+}
 
 // Edge Plotting Functions
 function plotFriendshipEdge(sourceMesh, targetMesh) {
@@ -214,7 +283,228 @@ function plotFamilyEdge(sourceMesh, targetMesh) {
 }
 
 function plotRomanticEdge(sourceMesh, targetMesh) {
-  plotDashedLine(sourceMesh, targetMesh, 0xffc0cb); // Soft Pink
+  plotThickGlowingLine(sourceMesh, targetMesh, 0xffc0cb); // Soft Pink
+}
+function plotPoliticalAlignmentEdge(sourceMesh, targetMesh) {
+  plotDoubleHelixEdge(sourceMesh, targetMesh, 0x6a0dad, 3); // Purple with 3 twists
+}
+
+function plotEmploymentRelationshipEdge(sourceMesh, targetMesh) {
+  plotArrowRibbonEdge(sourceMesh, targetMesh, 0xffd700); // Gold
+}
+function plotTrustEdge(sourceMesh, targetMesh) {
+  plotGlowingThreadEdge(sourceMesh, targetMesh, 0x00ffff, 0xffffff); // Cyan to White Glow
+}
+
+function plotRespectEdge(sourceMesh, targetMesh) {
+  plotArchingBridgeEdge(sourceMesh, targetMesh, 0xcd7f32, 0xffd700); // Bronze to Gold Arch
+}
+
+function plotCommunicationEdge(sourceMesh, targetMesh) {
+  plotWavyParticleEdge(sourceMesh, targetMesh, 0x00008b, 0x87cefa); // Dark Blue to Sky Blue
+}
+
+
+function plotSocialStandingEdge(sourceMesh, targetMesh) {
+  const sourcePos = sourceMesh.position;
+  const targetPos = targetMesh.position;
+
+  // Determine color based on relative social standing
+  const color = (sourcePos.y + targetPos.y) / 2 > 5 ? 0xffd700 : 0x808080; // Gold for high, Grey for low
+
+  // Calculate control point (below the midpoint of the nodes)
+  const controlPoint = new THREE.Vector3(
+    (sourcePos.x + targetPos.x) / 2,      // Midpoint X
+    Math.min(sourcePos.y, targetPos.y) - 2, // Offset downward below nodes
+    (sourcePos.z + targetPos.z) / 2       // Midpoint Z
+  );
+
+  // Create a Quadratic Bézier Curve
+  const curve = new THREE.QuadraticBezierCurve3(
+    new THREE.Vector3(sourcePos.x, sourcePos.y, sourcePos.z), // Start point
+    controlPoint,                                             // Control point (below midpoint)
+    new THREE.Vector3(targetPos.x, targetPos.y, targetPos.z)  // End point
+  );
+
+  // Generate points for the curve
+  const points = curve.getPoints(50);
+
+  // Create geometry and material for the curve
+  const geometry = new THREE.BufferGeometry().setFromPoints(points);
+  const material = new THREE.LineBasicMaterial({ color: color, linewidth: 2 });
+
+  // Create a line object and add it to the scene
+  const bezierLine = new THREE.Line(geometry, material);
+  scene.add(bezierLine);
+}
+
+//
+/// helper 
+//
+function plotGlowingThreadEdge(sourceMesh, targetMesh, lowColor, highColor) {
+  const sourcePos = sourceMesh.position;
+  const targetPos = targetMesh.position;
+
+  // Calculate color based on midpoint height (as a placeholder for trust strength)
+  const trustStrength = (sourcePos.y + targetPos.y) / 2; // Example trust scaling
+  const color = trustStrength > 5 ? highColor : lowColor;
+
+  const geometry = new THREE.BufferGeometry().setFromPoints([
+    sourcePos.clone(),
+    targetPos.clone(),
+  ]);
+
+  const material = new THREE.LineBasicMaterial({
+    color: color,
+    linewidth: 1,
+    transparent: true,
+    opacity: 0.8,
+  });
+
+  // Create glowing effect
+  const line = new THREE.Line(geometry, material);
+  scene.add(line);
+
+  // Add pulsing glow effect
+  const clock = new THREE.Clock();
+  function animateGlow() {
+    const time = clock.getElapsedTime();
+    material.opacity = 0.6 + 0.4 * Math.sin(time * 2); // Pulse between 0.6 and 1
+    requestAnimationFrame(animateGlow);
+  }
+  animateGlow();
+}
+function plotArchingBridgeEdge(sourceMesh, targetMesh, lowColor, highColor) {
+  const sourcePos = sourceMesh.position;
+  const targetPos = targetMesh.position;
+
+  // Calculate color based on relative node height
+  const respectStrength = (sourcePos.y + targetPos.y) / 2;
+  const color = respectStrength > 5 ? highColor : lowColor;
+
+  // Control point for arching effect (above the midpoint)
+  const controlPoint = new THREE.Vector3(
+    (sourcePos.x + targetPos.x) / 2,    // Midpoint X
+    Math.max(sourcePos.y, targetPos.y) + 2, // Offset upward
+    (sourcePos.z + targetPos.z) / 2     // Midpoint Z
+  );
+
+  // Quadratic Bézier curve for the arch
+  const curve = new THREE.QuadraticBezierCurve3(
+    sourcePos.clone(),
+    controlPoint,
+    targetPos.clone()
+  );
+
+  const points = curve.getPoints(50);
+  const geometry = new THREE.BufferGeometry().setFromPoints(points);
+  const material = new THREE.LineBasicMaterial({ color: color, linewidth: 3 });
+
+  const archLine = new THREE.Line(geometry, material);
+  scene.add(archLine);
+}
+function plotWavyParticleEdge(sourceMesh, targetMesh, lowColor, highColor) {
+  const points = [];
+  const numPoints = 50;
+  const sourcePos = sourceMesh.position;
+  const targetPos = targetMesh.position;
+
+  // Wavy curve points
+  for (let i = 0; i <= numPoints; i++) {
+    const t = i / numPoints;
+    const x = THREE.MathUtils.lerp(sourcePos.x, targetPos.x, t);
+    const y = THREE.MathUtils.lerp(sourcePos.y, targetPos.y, t) + Math.sin(10 * t) * 0.5; // Wavy motion
+    const z = THREE.MathUtils.lerp(sourcePos.z, targetPos.z, t);
+    points.push(new THREE.Vector3(x, y, z));
+  }
+
+  const geometry = new THREE.BufferGeometry().setFromPoints(points);
+  const material = new THREE.LineBasicMaterial({ color: lowColor, linewidth: 2 });
+
+  const wavyLine = new THREE.Line(geometry, material);
+  scene.add(wavyLine);
+
+  // Add particle flow
+  const particleGeometry = new THREE.SphereGeometry(0.1, 8, 8);
+  const particleMaterial = new THREE.MeshBasicMaterial({ color: highColor });
+  const particle = new THREE.Mesh(particleGeometry, particleMaterial);
+  scene.add(particle);
+
+  let t = 0;
+  function animateParticles() {
+    t += 0.01;
+    const index = Math.floor(t * numPoints) % points.length;
+    const position = points[index];
+    particle.position.set(position.x, position.y, position.z);
+    requestAnimationFrame(animateParticles);
+  }
+  animateParticles();
+}
+
+function plotDoubleHelixEdge(sourceMesh, targetMesh, color, twists = 3) {
+  const points = [];
+  const numPoints = 100;
+  const sourcePos = sourceMesh.position;
+  const targetPos = targetMesh.position;
+
+  for (let i = 0; i <= numPoints; i++) {
+    const t = i / numPoints;
+    const x = THREE.MathUtils.lerp(sourcePos.x, targetPos.x, t);
+    const y = THREE.MathUtils.lerp(sourcePos.y, targetPos.y, t) + Math.sin(twists * Math.PI * t) * 0.5; // Twist effect
+    const z = THREE.MathUtils.lerp(sourcePos.z, targetPos.z, t) + Math.cos(twists * Math.PI * t) * 0.5; // Opposing twist
+    points.push(new THREE.Vector3(x, y, z));
+  }
+
+  const curve = new THREE.CatmullRomCurve3(points);
+  const geometry = new THREE.TubeGeometry(curve, 64, 0.05, 8, false);
+  const material = new THREE.MeshBasicMaterial({ color });
+  scene.add(new THREE.Mesh(geometry, material));
+}
+function plotArrowRibbonEdge(sourceMesh, targetMesh, color) {
+  const points = [
+    sourceMesh.position.clone(),
+    targetMesh.position.clone(),
+  ];
+  const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+  // Ribbon material
+  const material = new THREE.MeshBasicMaterial({
+    color: color,
+    transparent: true,
+    opacity: 0.8,
+  });
+
+  // Arrow direction
+  const arrowDirection = targetMesh.position.clone().sub(sourceMesh.position).normalize();
+  const arrowHelper = new THREE.ArrowHelper(
+    arrowDirection,
+    sourceMesh.position,
+    sourceMesh.position.distanceTo(targetMesh.position),
+    color,
+    0.5, // Arrowhead length
+    0.3  // Arrowhead width
+  );
+
+  scene.add(new THREE.Line(geometry, material));
+  scene.add(arrowHelper);
+}
+function plotZigzagEdge(sourceMesh, targetMesh, color, levels = 2) {
+  const points = [];
+  const sourcePos = sourceMesh.position;
+  const targetPos = targetMesh.position;
+  const segments = 10;
+
+  for (let i = 0; i <= segments; i++) {
+    const t = i / segments;
+    const x = THREE.MathUtils.lerp(sourcePos.x, targetPos.x, t);
+    const y = sourcePos.y + (i % 2 === 0 ? levels : -levels) * 0.5; // Alternating up and down
+    const z = THREE.MathUtils.lerp(sourcePos.z, targetPos.z, t);
+    points.push(new THREE.Vector3(x, y, z));
+  }
+
+  const geometry = new THREE.BufferGeometry().setFromPoints(points);
+  const material = new THREE.LineBasicMaterial({ color });
+  scene.add(new THREE.Line(geometry, material));
 }
 
 // Core Edge Drawing Helpers
