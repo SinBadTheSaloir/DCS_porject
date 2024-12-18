@@ -155,26 +155,6 @@ function plotFriendshipEdge(sourceMesh, targetMesh) {
   scene.add(mesh);
 }
 
-function plotEnemiesEdge(sourceMesh, targetMesh) {
-  const points = [];
-  const segments = 20;
-
-  const sourcePos = sourceMesh.position;
-  const targetPos = targetMesh.position;
-
-  for (let i = 0; i <= segments; i++) {
-    const t = i / segments;
-    const x = THREE.MathUtils.lerp(sourcePos.x, targetPos.x, t);
-    const y = sourcePos.y + (i % 2 === 0 ? 0.2 : -0.2); // Jagged
-    const z = THREE.MathUtils.lerp(sourcePos.z, targetPos.z, t);
-    points.push(new THREE.Vector3(x, y, z));
-  }
-
-  const geometry = new THREE.BufferGeometry().setFromPoints(points);
-  const material = new THREE.LineBasicMaterial({ color: 0xff0000 }); // Red
-  const line = new THREE.Line(geometry, material);
-  scene.add(line);
-}
 
 // Function to plot Enemies edges using a wiggly line
 function plotEnemiesEdge(sourceMesh, targetMesh) {
@@ -198,15 +178,7 @@ function plotEnemiesEdge(sourceMesh, targetMesh) {
   scene.add(line);
 }
 
-// Placeholder for Family edges
-function plotFamilyEdgePlaceholder(sourceMesh, targetMesh) {
-  console.log(`Family edge placeholder between ${sourceMesh.name} and ${targetMesh.name}`);
-}
 
-// Placeholder for Romantic edges
-function plotRomanticEdgePlaceholder(sourceMesh, targetMesh) {
-  console.log(`Romantic edge placeholder between ${sourceMesh.name} and ${targetMesh.name}`);
-}
 
 // Master function to initialize the plotting process after loading nodes
 function plotAllEdges() {
@@ -340,11 +312,7 @@ function drawRomanticInterestEdge(sourceMesh, targetMesh) {
   line.computeLineDistances();
   scene.add(line);
 
-  // Particles moving along the line
-  const particleMaterial = new THREE.PointsMaterial({ color: 0xffc0cb, size: 0.1 });
-  const particleGeometry = new THREE.BufferGeometry().setFromPoints(points);
-  const particles = new THREE.Points(particleGeometry, particleMaterial);
-  scene.add(particles);
+
 }
 function drawEnemiesEdge(sourceMesh, targetMesh) {
   const sourcePos = sourceMesh.position;
@@ -475,23 +443,16 @@ function plotWigglyLine(source, target, color, amplitude = 0.3, frequency = 4, f
 }
 
 // Edge Plotting Function
-function plotEdge(sourceMesh, targetMesh, emotions, sourceZ, targetZ) {
-  if (sourceZ !== targetZ) return; // Ensure nodes are on the same Z-level
+function plotEdge(sourceMesh, targetMesh, emotions) {
+  const edgeTypes = [
+    { index: 0, color: 0x00ff00, plot: plotFriendshipEdge },
+    { index: 3, color: 0xff0000, plot: plotEnemiesEdge },
+  ];
 
   emotions.forEach((weight, index) => {
     if (weight > 0) {
-      const edgeKey = `${sourceMesh.name}-${targetMesh.name}-${index}`;
-      const reverseKey = `${targetMesh.name}-${sourceMesh.name}-${index}`;
-
-      if (plottedEdges.has(edgeKey) || plottedEdges.has(reverseKey)) return;
-
-      // Plot edge based on emotion type
-      if (index === 0) plotBezierQuadratic(sourceMesh, targetMesh, emotionColors[0]); // Friendship
-      else if (index === 1) plotStraightLine(sourceMesh, targetMesh, emotionColors[1]); // Family
-      else if (index === 2) plotStraightLine(sourceMesh, targetMesh, emotionColors[2]); // Love
-      else if (index === 3) plotWigglyLine(sourceMesh, targetMesh, emotionColors[3]); // Enemies
-
-      plottedEdges.add(edgeKey); // Track plotted edge
+      const edgeType = edgeTypes.find((e) => e.index === index);
+      if (edgeType) edgeType.plot(sourceMesh, targetMesh);
     }
   });
 }
@@ -502,10 +463,11 @@ function plotEdge(sourceMesh, targetMesh, emotions, sourceZ, targetZ) {
 
 
 
+
 // Master function to initialize everything
 // Master function to initialize everything
 function make_scene(jsonFile) {
-  if (!scene) setScene(); // Ensure scene is initialized
+  setScene();
   setRenderer();
   setCamera();
   setGridHelper();
@@ -520,6 +482,7 @@ function make_scene(jsonFile) {
   }
   animate();
 }
+
 
 
 class Book {
@@ -593,13 +556,12 @@ function clearScene() {
   }
   console.log("Clearing the scene...");
   
-  // Remove all children from the scene
-  for (let i = scene.children.length - 1; i >= 0; i--) {
-    scene.remove(scene.children[i]);
+  while (scene.children.length > 0) {
+    scene.remove(scene.children[0]);
   }
-
-  setGridHelper(); // Re-add grid helper to reset visuals
+  setGridHelper(); // Re-add grid helper
 }
+
 
 // Function to clear previous data or scene
 
