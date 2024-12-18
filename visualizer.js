@@ -49,6 +49,12 @@ class Node {
 function setScene() {
   scene = new THREE.Scene();
   console.log("Scene initialized");
+
+  if (!sceneGroup) {
+    sceneGroup = new THREE.Group();
+    scene.add(sceneGroup); // Add group to the scene
+    console.log("Scene group initialized and added to scene");
+  }
 }
 
 // Function to set the renderer
@@ -87,16 +93,21 @@ function setControls() {
 
 
 function placeNode(nodeObject, x, y, z) {
+  if (!sceneGroup) {
+    console.error("Scene group is not initialized. Cannot add nodes.");
+    return;
+  }
+
   const nodeMesh = new THREE.Mesh(nodeObject.geometry, nodeObject.material);
   nodeMesh.position.set(x, y, z);
   nodeMesh.name = `${nodeObject.name}_Z${nodeObject.metadata.layer}`; // Unique per Z-level
 
-  nodeMeshes[nodeMesh.name] = nodeMesh; // Store in global mesh tracker
-  nodes.push({ object: nodeObject, mesh: nodeMesh }); // Add to global nodes array
-
-  scene.add(nodeMesh);
+  sceneGroup.add(nodeMesh); // Add to the scene group
+  nodeMeshes[nodeMesh.name] = nodeMesh; // Store for lookup
   console.log(`Node "${nodeMesh.name}" placed at (${x}, ${y}, ${z})`);
 }
+
+
 async function loadAndPlotNodes(jsonFile) {
   try {
     if (!scene) setScene(); // Ensure the scene is initialized before adding nodes
@@ -168,7 +179,58 @@ const EDGE_PLOT_FUNCTIONS = {
   7: { color: 0xffffff, plot: plotTrustEdge },             // Trust
   8: { color: 0xffd700, plot: plotRespectEdge },           // Respect
   9: { color: 0x87cefa, plot: plotCommunicationEdge },     // Communication
+  10: { color: 0x00ff00, plot: (src) => plotPastExperienceEdge(src, "Shared History") }, // Shared History
+  11: { color: 0xff0000, plot: (src) => plotPastExperienceEdge(src, "Conflict History") } // Conflict History
 };
+
+
+function drawGhostNodeMarker(position, zOffset = 10, color = 0xffa500) {
+  const ghostGeometry = new THREE.SphereGeometry(0.5, 32, 32); // Larger size
+  const ghostMaterial = new THREE.MeshBasicMaterial({ color, opacity: 1, transparent: false }); // Bright orange, fully opaque
+
+  const ghostNode = new THREE.Mesh(ghostGeometry, ghostMaterial);
+  ghostNode.position.set(position.x, position.y, position.z - zOffset); // Shift down on Z-axis
+  scene.add(ghostNode);
+
+  console.log(`Ghost node placed at (${position.x}, ${position.y}, ${position.z - zOffset})`);
+  return ghostNode.position;
+}
+
+
+
+
+function drawDashedLineToGhost(sourceMesh, ghostPosition, color = 0xffff00) {
+  const points = [sourceMesh.position.clone(), ghostPosition];
+
+  const geometry = new THREE.BufferGeometry().setFromPoints(points);
+  const material = new THREE.LineDashedMaterial({
+    color: color,        // Bright yellow
+    dashSize: 1,         // Longer dashes
+    gapSize: 0.5,        // Larger gaps
+    linewidth: 2         // Thicker line
+  });
+
+  const line = new THREE.Line(geometry, material);
+  line.computeLineDistances(); // Required for dashed effect
+  scene.add(line);
+
+  console.log(`Dashed line drawn to ghost node.`);
+}
+
+
+function plotPastExperienceEdge(sourceMesh, relationshipType, currentLayer) {
+  const zOffset = 10; // Fixed offset for Z-level
+  const color = relationshipType === "Shared History" ? 0x00ff00 : 0xff0000; // Green for good, red for bad
+
+  // Step 1: Find the position on the lower Z-level
+  const lowerTargetPos = findNodePositionOnLowerLevel(sourceMesh.name, currentLayer);
+
+  // Step 2: Draw ghost node marker
+  const ghostPosition = lowerTargetPos || drawGhostNodeMarker(sourceMesh.position, zOffset, color);
+
+  // Step 3: Draw dashed line to ghost node
+  drawDashedLineToGhost(sourceMesh, ghostPosition, color);
+}
 
 
 
@@ -835,6 +897,7 @@ function make_scene(jsonFile) {
   function animate() {
     requestAnimationFrame(animate);
     controls.update();
+    TWEEN.update(); // Include for smooth transitions
     renderer.render(scene, camera);
   }
   animate();
