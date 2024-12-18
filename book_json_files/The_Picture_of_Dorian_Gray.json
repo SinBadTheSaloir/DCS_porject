@@ -1,0 +1,3071 @@
+{
+    "title": "Generated Story Data",
+    "layers": [
+        {
+            "layer_number": 1,
+            "nodes": [
+                {
+                    "name": "The artist",
+                    "x": -4.563929379526904,
+                    "y": 0,
+                    "z": -1.357693399459107,
+                    "color": "#bcbd22",
+                    "relationships": [
+                        {
+                            "target": "The critic",
+                            "emotions": [
+                                3,
+                                0,
+                                0,
+                                4,
+                                5,
+                                5,
+                                5,
+                                3,
+                                3,
+                                4,
+                                5,
+                                4,
+                                4,
+                                3
+                            ]
+                        },
+                        {
+                            "target": "The cultivated",
+                            "emotions": [
+                                5,
+                                0,
+                                0,
+                                3,
+                                4,
+                                5,
+                                4,
+                                3,
+                                4,
+                                3,
+                                5,
+                                4,
+                                4,
+                                3
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "The critic",
+                    "x": 1.1650425257159567,
+                    "y": 0,
+                    "z": 5.0,
+                    "color": "#dbdb8d",
+                    "relationships": [
+                        {
+                            "target": "The artist",
+                            "emotions": [
+                                3,
+                                0,
+                                0,
+                                4,
+                                5,
+                                5,
+                                5,
+                                3,
+                                3,
+                                4,
+                                5,
+                                4,
+                                4,
+                                3
+                            ]
+                        },
+                        {
+                            "target": "The cultivated",
+                            "emotions": [
+                                2,
+                                0,
+                                0,
+                                4,
+                                4,
+                                4,
+                                4,
+                                2,
+                                3,
+                                3,
+                                4,
+                                3,
+                                3,
+                                2
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "The cultivated",
+                    "x": 3.398886853810935,
+                    "y": 0,
+                    "z": -3.642306600540899,
+                    "color": "#17becf",
+                    "relationships": [
+                        {
+                            "target": "The artist",
+                            "emotions": [
+                                5,
+                                0,
+                                0,
+                                3,
+                                4,
+                                5,
+                                4,
+                                3,
+                                4,
+                                3,
+                                5,
+                                4,
+                                4,
+                                3
+                            ]
+                        },
+                        {
+                            "target": "The critic",
+                            "emotions": [
+                                2,
+                                0,
+                                0,
+                                4,
+                                4,
+                                4,
+                                4,
+                                2,
+                                3,
+                                3,
+                                4,
+                                3,
+                                3,
+                                2
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "layer_number": 2,
+            "nodes": [
+                {
+                    "name": "Basil Hallward",
+                    "x": -0.09564511009249116,
+                    "y": 5,
+                    "z": -5.0,
+                    "color": "#ff7f0e",
+                    "relationships": [
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                5,
+                                5,
+                                4,
+                                5,
+                                6,
+                                6,
+                                4,
+                                5,
+                                5,
+                                5,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                9,
+                                0,
+                                0,
+                                3,
+                                4,
+                                7,
+                                6,
+                                5,
+                                9,
+                                8,
+                                7,
+                                9,
+                                9,
+                                3
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Lord Henry Wotton",
+                    "x": 4.3935905670759166,
+                    "y": 5,
+                    "z": 2.8318493603455974,
+                    "color": "#e377c2",
+                    "relationships": [
+                        {
+                            "target": "Basil Hallward",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                5,
+                                5,
+                                4,
+                                5,
+                                6,
+                                6,
+                                4,
+                                5,
+                                5,
+                                5,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                3,
+                                4,
+                                6,
+                                6,
+                                6,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                3
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Dorian Gray",
+                    "x": -4.297945456983426,
+                    "y": 5,
+                    "z": 2.1681506396544155,
+                    "color": "#ffbb78",
+                    "relationships": [
+                        {
+                            "target": "Basil Hallward",
+                            "emotions": [
+                                9,
+                                0,
+                                0,
+                                3,
+                                4,
+                                7,
+                                6,
+                                5,
+                                9,
+                                8,
+                                7,
+                                9,
+                                9,
+                                3
+                            ]
+                        },
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                3,
+                                4,
+                                6,
+                                6,
+                                6,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                3
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "layer_number": 3,
+            "nodes": [
+                {
+                    "name": "Lord Henry Wotton",
+                    "x": -0.5503241785246964,
+                    "y": 10,
+                    "z": -4.591264123292018,
+                    "color": "#e377c2",
+                    "relationships": [
+                        {
+                            "target": "Lord Fermor",
+                            "emotions": [
+                                4,
+                                0,
+                                0,
+                                6,
+                                4,
+                                5,
+                                6,
+                                4,
+                                4,
+                                4,
+                                5,
+                                4,
+                                4,
+                                6
+                            ]
+                        },
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                3,
+                                5,
+                                6,
+                                7,
+                                6,
+                                6,
+                                5,
+                                6,
+                                6,
+                                6,
+                                3
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Lord Fermor",
+                    "x": 5.0,
+                    "y": 10,
+                    "z": 1.9837192957887342,
+                    "color": "#c49c94",
+                    "relationships": [
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                4,
+                                0,
+                                0,
+                                6,
+                                4,
+                                5,
+                                6,
+                                4,
+                                4,
+                                4,
+                                5,
+                                4,
+                                4,
+                                6
+                            ]
+                        },
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                3,
+                                0,
+                                0,
+                                4,
+                                4,
+                                4,
+                                4,
+                                3,
+                                3,
+                                3,
+                                4,
+                                3,
+                                3,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Dorian Gray",
+                    "x": -4.4496758214753065,
+                    "y": 10,
+                    "z": 2.6075448275032898,
+                    "color": "#ffbb78",
+                    "relationships": [
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                3,
+                                5,
+                                6,
+                                7,
+                                6,
+                                6,
+                                5,
+                                6,
+                                6,
+                                6,
+                                3
+                            ]
+                        },
+                        {
+                            "target": "Lord Fermor",
+                            "emotions": [
+                                3,
+                                0,
+                                0,
+                                4,
+                                4,
+                                4,
+                                4,
+                                3,
+                                3,
+                                3,
+                                4,
+                                3,
+                                3,
+                                4
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "layer_number": 4,
+            "nodes": [
+                {
+                    "name": "Lord Henry Wotton",
+                    "x": 1.2158233362923951,
+                    "y": 15,
+                    "z": 4.709856121211271,
+                    "color": "#e377c2",
+                    "relationships": [
+                        {
+                            "target": "Aunt Agatha",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                2,
+                                5,
+                                6,
+                                7,
+                                7,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                2
+                            ]
+                        },
+                        {
+                            "target": "Mr. Erskine",
+                            "emotions": [
+                                8,
+                                0,
+                                0,
+                                3,
+                                6,
+                                7,
+                                8,
+                                8,
+                                8,
+                                7,
+                                8,
+                                7,
+                                8,
+                                3
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Aunt Agatha",
+                    "x": -5.0,
+                    "y": 15,
+                    "z": -1.530484534910039,
+                    "color": "#aec7e8",
+                    "relationships": [
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                2,
+                                5,
+                                6,
+                                7,
+                                7,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                2
+                            ]
+                        },
+                        {
+                            "target": "Mr. Erskine",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                4,
+                                5,
+                                6,
+                                6,
+                                6,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Mr. Erskine",
+                    "x": 3.7841766637075946,
+                    "y": 15,
+                    "z": -3.179371586301234,
+                    "color": "#f7b6d2",
+                    "relationships": [
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                8,
+                                0,
+                                0,
+                                3,
+                                6,
+                                7,
+                                8,
+                                8,
+                                8,
+                                7,
+                                8,
+                                7,
+                                8,
+                                3
+                            ]
+                        },
+                        {
+                            "target": "Aunt Agatha",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                4,
+                                5,
+                                6,
+                                6,
+                                6,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                4
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "layer_number": 5,
+            "nodes": [
+                {
+                    "name": "Sibyl Vane",
+                    "x": -3.3056390875167283,
+                    "y": 20,
+                    "z": 3.513870316577497,
+                    "color": "#c7c7c7",
+                    "relationships": [
+                        {
+                            "target": "Mrs. Vane",
+                            "emotions": [
+                                5,
+                                0,
+                                0,
+                                4,
+                                5,
+                                4,
+                                5,
+                                3,
+                                5,
+                                4,
+                                5,
+                                4,
+                                5,
+                                3
+                            ]
+                        },
+                        {
+                            "target": "Jim Vane",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                3,
+                                6,
+                                4,
+                                5,
+                                4,
+                                6,
+                                5,
+                                6,
+                                4,
+                                6,
+                                3
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Mrs. Vane",
+                    "x": -1.5325637239105607,
+                    "y": 20,
+                    "z": -5.0,
+                    "color": "#7f7f7f",
+                    "relationships": [
+                        {
+                            "target": "Sibyl Vane",
+                            "emotions": [
+                                5,
+                                0,
+                                0,
+                                4,
+                                5,
+                                4,
+                                5,
+                                3,
+                                5,
+                                4,
+                                5,
+                                4,
+                                5,
+                                3
+                            ]
+                        },
+                        {
+                            "target": "Jim Vane",
+                            "emotions": [
+                                4,
+                                0,
+                                0,
+                                3,
+                                4,
+                                3,
+                                4,
+                                3,
+                                4,
+                                4,
+                                4,
+                                3,
+                                4,
+                                3
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Jim Vane",
+                    "x": 4.838202811427289,
+                    "y": 20,
+                    "z": 1.4861296834225213,
+                    "color": "#ff9896",
+                    "relationships": [
+                        {
+                            "target": "Sibyl Vane",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                3,
+                                6,
+                                4,
+                                5,
+                                4,
+                                6,
+                                5,
+                                6,
+                                4,
+                                6,
+                                3
+                            ]
+                        },
+                        {
+                            "target": "Mrs. Vane",
+                            "emotions": [
+                                4,
+                                0,
+                                0,
+                                3,
+                                4,
+                                3,
+                                4,
+                                3,
+                                4,
+                                4,
+                                4,
+                                3,
+                                4,
+                                3
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "layer_number": 6,
+            "nodes": [
+                {
+                    "name": "Dorian Gray",
+                    "x": 4.356580136857805,
+                    "y": 25,
+                    "z": -1.601318228756961,
+                    "color": "#ffbb78",
+                    "relationships": [
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                5,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Basil Hallward",
+                            "emotions": [
+                                8,
+                                0,
+                                0,
+                                4,
+                                8,
+                                7,
+                                8,
+                                6,
+                                8,
+                                7,
+                                8,
+                                7,
+                                8,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Lord Henry Wotton",
+                    "x": -0.8021608969655035,
+                    "y": 25,
+                    "z": 5.0,
+                    "color": "#e377c2",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                5,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Basil Hallward",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                4,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Basil Hallward",
+                    "x": -3.5544192398922947,
+                    "y": 25,
+                    "z": -3.398681771243033,
+                    "color": "#ff7f0e",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                8,
+                                0,
+                                0,
+                                4,
+                                8,
+                                7,
+                                8,
+                                6,
+                                8,
+                                7,
+                                8,
+                                7,
+                                8,
+                                4
+                            ]
+                        },
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                4,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                4
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "layer_number": 7,
+            "nodes": [
+                {
+                    "name": "Dorian Gray",
+                    "x": 3.089568094655334,
+                    "y": 30,
+                    "z": 3.7420916938235242,
+                    "color": "#ffbb78",
+                    "relationships": [
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                8,
+                                0,
+                                0,
+                                5,
+                                8,
+                                7,
+                                8,
+                                6,
+                                8,
+                                7,
+                                8,
+                                7,
+                                8,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Sibyl Vane",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                4,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Lord Henry Wotton",
+                    "x": -4.932502694392365,
+                    "y": 30,
+                    "z": 1.257908306176476,
+                    "color": "#e377c2",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                8,
+                                0,
+                                0,
+                                5,
+                                8,
+                                7,
+                                8,
+                                6,
+                                8,
+                                7,
+                                8,
+                                7,
+                                8,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Sibyl Vane",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                4,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Sibyl Vane",
+                    "x": 1.8429345997370312,
+                    "y": 30,
+                    "z": -5.0,
+                    "color": "#c7c7c7",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                4,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                4
+                            ]
+                        },
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                4,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                4
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "layer_number": 8,
+            "nodes": [
+                {
+                    "name": "Dorian Gray",
+                    "x": -3.3239167940990284,
+                    "y": 35,
+                    "z": 2.9317022058108377,
+                    "color": "#ffbb78",
+                    "relationships": [
+                        {
+                            "target": "James Vane",
+                            "emotions": [
+                                5,
+                                0,
+                                0,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Mrs. Vane",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                6,
+                                6,
+                                6,
+                                6,
+                                6,
+                                6,
+                                6,
+                                6,
+                                6,
+                                6,
+                                6
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "James Vane",
+                    "x": -1.063524952206307,
+                    "y": 35,
+                    "z": -4.999999999999999,
+                    "color": "#d62728",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                5,
+                                0,
+                                0,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Mrs. Vane",
+                            "emotions": [
+                                4,
+                                0,
+                                0,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Mrs. Vane",
+                    "x": 4.387441746305335,
+                    "y": 35,
+                    "z": 2.0682977941891556,
+                    "color": "#7f7f7f",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                6,
+                                6,
+                                6,
+                                6,
+                                6,
+                                6,
+                                6,
+                                6,
+                                6,
+                                6,
+                                6
+                            ]
+                        },
+                        {
+                            "target": "James Vane",
+                            "emotions": [
+                                4,
+                                0,
+                                0,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "layer_number": 9,
+            "nodes": [
+                {
+                    "name": "Dorian Gray",
+                    "x": -1.9045054462602735,
+                    "y": 40,
+                    "z": 4.137767280560388,
+                    "color": "#ffbb78",
+                    "relationships": [
+                        {
+                            "target": "Basil Hallward",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                6,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                6
+                            ]
+                        },
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                8,
+                                0,
+                                0,
+                                5,
+                                8,
+                                7,
+                                8,
+                                6,
+                                8,
+                                7,
+                                8,
+                                7,
+                                8,
+                                5
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Basil Hallward",
+                    "x": 5.0,
+                    "y": 40,
+                    "z": -0.35517707609012505,
+                    "color": "#ff7f0e",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                6,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                6
+                            ]
+                        },
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                4,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Lord Henry Wotton",
+                    "x": -3.0954945537397234,
+                    "y": 40,
+                    "z": -3.7825902044702757,
+                    "color": "#e377c2",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                8,
+                                0,
+                                0,
+                                5,
+                                8,
+                                7,
+                                8,
+                                6,
+                                8,
+                                7,
+                                8,
+                                7,
+                                8,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Basil Hallward",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                4,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                4
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "layer_number": 10,
+            "nodes": [
+                {
+                    "name": "Dorian Gray",
+                    "x": 3.6289630891660174,
+                    "y": 45,
+                    "z": -3.1633768044083412,
+                    "color": "#ffbb78",
+                    "relationships": [
+                        {
+                            "target": "Basil Hallward",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                5,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                8,
+                                0,
+                                0,
+                                4,
+                                8,
+                                7,
+                                8,
+                                6,
+                                8,
+                                7,
+                                8,
+                                7,
+                                8,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Basil Hallward",
+                    "x": -4.999999999999999,
+                    "y": 45,
+                    "z": -1.7917217330044035,
+                    "color": "#ff7f0e",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                5,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                4,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Lord Henry Wotton",
+                    "x": 1.3710369108339857,
+                    "y": 45,
+                    "z": 4.955098537412741,
+                    "color": "#e377c2",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                8,
+                                0,
+                                0,
+                                4,
+                                8,
+                                7,
+                                8,
+                                6,
+                                8,
+                                7,
+                                8,
+                                7,
+                                8,
+                                4
+                            ]
+                        },
+                        {
+                            "target": "Basil Hallward",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                4,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                4
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "layer_number": 11,
+            "nodes": [
+                {
+                    "name": "Dorian Gray",
+                    "x": 2.307095687453758,
+                    "y": 50,
+                    "z": 3.9264848426200434,
+                    "color": "#ffbb78",
+                    "relationships": [
+                        {
+                            "target": "Basil Hallward",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                5,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Victor",
+                            "emotions": [
+                                3,
+                                0,
+                                0,
+                                3,
+                                3,
+                                4,
+                                3,
+                                3,
+                                3,
+                                3,
+                                3,
+                                3,
+                                3,
+                                3
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Basil Hallward",
+                    "x": 2.6929043125462373,
+                    "y": 50,
+                    "z": -3.067895840485459,
+                    "color": "#ff7f0e",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                5,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Victor",
+                            "emotions": [
+                                4,
+                                0,
+                                0,
+                                3,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Victor",
+                    "x": -5.0,
+                    "y": 50,
+                    "z": -0.8585890021345786,
+                    "color": "#9edae5",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                3,
+                                0,
+                                0,
+                                3,
+                                3,
+                                4,
+                                3,
+                                3,
+                                3,
+                                3,
+                                3,
+                                3,
+                                3,
+                                3
+                            ]
+                        },
+                        {
+                            "target": "Basil Hallward",
+                            "emotions": [
+                                4,
+                                0,
+                                0,
+                                3,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "layer_number": 12,
+            "nodes": [
+                {
+                    "name": "Dorian Gray",
+                    "x": 3.997128047847862,
+                    "y": 55,
+                    "z": -2.700548046045144,
+                    "color": "#ffbb78",
+                    "relationships": [
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                8,
+                                0,
+                                0,
+                                5,
+                                8,
+                                7,
+                                8,
+                                6,
+                                8,
+                                7,
+                                8,
+                                7,
+                                8,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Basil Hallward",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                4,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Lord Henry Wotton",
+                    "x": 0.77328153083822,
+                    "y": 55,
+                    "z": 5.0,
+                    "color": "#e377c2",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                8,
+                                0,
+                                0,
+                                5,
+                                8,
+                                7,
+                                8,
+                                6,
+                                8,
+                                7,
+                                8,
+                                7,
+                                8,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Basil Hallward",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                4,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Basil Hallward",
+                    "x": -4.770409578686086,
+                    "y": 55,
+                    "z": -2.2994519539548595,
+                    "color": "#ff7f0e",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                4,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                4
+                            ]
+                        },
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                4,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                4
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "layer_number": 13,
+            "nodes": [
+                {
+                    "name": "Dorian Gray",
+                    "x": 4.283431609756632,
+                    "y": 60,
+                    "z": -1.6563557608618265,
+                    "color": "#ffbb78",
+                    "relationships": [
+                        {
+                            "target": "Basil Hallward",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                4,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Basil Hallward",
+                    "x": -3.928700198702322,
+                    "y": 60,
+                    "z": -3.3436442391381753,
+                    "color": "#ff7f0e",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                5,
+                                0,
+                                0,
+                                3,
+                                5,
+                                4,
+                                5,
+                                4,
+                                5,
+                                4,
+                                5,
+                                4,
+                                5,
+                                3
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Lord Henry Wotton",
+                    "x": -0.35473141105430406,
+                    "y": 60,
+                    "z": 5.0,
+                    "color": "#e377c2",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                4,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                4
+                            ]
+                        },
+                        {
+                            "target": "Basil Hallward",
+                            "emotions": [
+                                5,
+                                0,
+                                0,
+                                3,
+                                5,
+                                4,
+                                5,
+                                4,
+                                5,
+                                4,
+                                5,
+                                4,
+                                5,
+                                3
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "layer_number": 14,
+            "nodes": [
+                {
+                    "name": "Dorian Gray",
+                    "x": -4.284342121432541,
+                    "y": 65,
+                    "z": -1.4011850258685932,
+                    "color": "#ffbb78",
+                    "relationships": [
+                        {
+                            "target": "Basil Hallward",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "James Vane",
+                            "emotions": [
+                                5,
+                                0,
+                                0,
+                                4,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Basil Hallward",
+                    "x": 3.3353737159943235,
+                    "y": 65,
+                    "z": -3.598814974131394,
+                    "color": "#ff7f0e",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "James Vane",
+                            "emotions": [
+                                4,
+                                0,
+                                0,
+                                3,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "James Vane",
+                    "x": 0.9489684054382177,
+                    "y": 65,
+                    "z": 5.0,
+                    "color": "#d62728",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                5,
+                                0,
+                                0,
+                                4,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Basil Hallward",
+                            "emotions": [
+                                4,
+                                0,
+                                0,
+                                3,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "layer_number": 15,
+            "nodes": [
+                {
+                    "name": "Dorian Gray",
+                    "x": 1.2014788621055728,
+                    "y": 70,
+                    "z": 4.709493562993924,
+                    "color": "#ffbb78",
+                    "relationships": [
+                        {
+                            "target": "Alan Campbell",
+                            "emotions": [
+                                8,
+                                0,
+                                0,
+                                5,
+                                8,
+                                7,
+                                8,
+                                6,
+                                8,
+                                7,
+                                8,
+                                7,
+                                8,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                4,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Alan Campbell",
+                    "x": -5.0,
+                    "y": 70,
+                    "z": -0.9738693624950723,
+                    "color": "#1f77b4",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                8,
+                                0,
+                                0,
+                                5,
+                                8,
+                                7,
+                                8,
+                                6,
+                                8,
+                                7,
+                                8,
+                                7,
+                                8,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                4,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Lord Henry Wotton",
+                    "x": 3.79852113789442,
+                    "y": 70,
+                    "z": -3.735624200498852,
+                    "color": "#e377c2",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                4,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                4
+                            ]
+                        },
+                        {
+                            "target": "Alan Campbell",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                4,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                4
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "layer_number": 16,
+            "nodes": [
+                {
+                    "name": "Dorian Gray",
+                    "x": -3.710190296780427,
+                    "y": 75,
+                    "z": 2.6428458714102376,
+                    "color": "#ffbb78",
+                    "relationships": [
+                        {
+                            "target": "Lady Narborough",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                4,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Lady Narborough",
+                    "x": -0.5736677600704442,
+                    "y": 75,
+                    "z": -5.0,
+                    "color": "#8c564b",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                5,
+                                0,
+                                0,
+                                4,
+                                5,
+                                4,
+                                5,
+                                4,
+                                5,
+                                4,
+                                5,
+                                4,
+                                5,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Lord Henry Wotton",
+                    "x": 4.283858056850868,
+                    "y": 75,
+                    "z": 2.3571541285897717,
+                    "color": "#e377c2",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                4,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                4
+                            ]
+                        },
+                        {
+                            "target": "Lady Narborough",
+                            "emotions": [
+                                5,
+                                0,
+                                0,
+                                4,
+                                5,
+                                4,
+                                5,
+                                4,
+                                5,
+                                4,
+                                5,
+                                4,
+                                5,
+                                4
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "layer_number": 17,
+            "nodes": [
+                {
+                    "name": "Dorian Gray",
+                    "x": 4.656727849118669,
+                    "y": 80,
+                    "z": 1.3143292199485441,
+                    "color": "#ffbb78",
+                    "relationships": [
+                        {
+                            "target": "Lady Monmouth",
+                            "emotions": [
+                                8,
+                                0,
+                                0,
+                                5,
+                                8,
+                                7,
+                                8,
+                                6,
+                                8,
+                                7,
+                                8,
+                                7,
+                                8,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                4,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Lady Monmouth",
+                    "x": -0.8461460090968332,
+                    "y": 80,
+                    "z": -5.0,
+                    "color": "#9467bd",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                8,
+                                0,
+                                0,
+                                5,
+                                8,
+                                7,
+                                8,
+                                6,
+                                8,
+                                7,
+                                8,
+                                7,
+                                8,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                4,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Lord Henry Wotton",
+                    "x": -3.810581840021836,
+                    "y": 80,
+                    "z": 3.6856707800514696,
+                    "color": "#e377c2",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                4,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                4
+                            ]
+                        },
+                        {
+                            "target": "Lady Monmouth",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                4,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                4
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "layer_number": 18,
+            "nodes": [
+                {
+                    "name": "Dorian Gray",
+                    "x": 2.0160798673781173,
+                    "y": 85,
+                    "z": -4.278922272912781,
+                    "color": "#ffbb78",
+                    "relationships": [
+                        {
+                            "target": "Duchess of Monmouth",
+                            "emotions": [
+                                9,
+                                0,
+                                0,
+                                5,
+                                9,
+                                7,
+                                9,
+                                6,
+                                9,
+                                7,
+                                9,
+                                7,
+                                9,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                4,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Duchess of Monmouth",
+                    "x": -4.999999999999999,
+                    "y": 85,
+                    "z": 0.017424664159272504,
+                    "color": "#2ca02c",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                9,
+                                0,
+                                0,
+                                5,
+                                9,
+                                7,
+                                9,
+                                6,
+                                9,
+                                7,
+                                9,
+                                7,
+                                9,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                4,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Lord Henry Wotton",
+                    "x": 2.983920132621889,
+                    "y": 85,
+                    "z": 4.26149760875353,
+                    "color": "#e377c2",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                4,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                4
+                            ]
+                        },
+                        {
+                            "target": "Duchess of Monmouth",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                4,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                4
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "layer_number": 19,
+            "nodes": [
+                {
+                    "name": "Dorian Gray",
+                    "x": 4.140088378208768,
+                    "y": 90,
+                    "z": -1.479236407956026,
+                    "color": "#ffbb78",
+                    "relationships": [
+                        {
+                            "target": "James Vane",
+                            "emotions": [
+                                5,
+                                0,
+                                0,
+                                4,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                4,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "James Vane",
+                    "x": -0.8950012697893024,
+                    "y": 90,
+                    "z": 5.0,
+                    "color": "#d62728",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                5,
+                                0,
+                                0,
+                                4,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                4,
+                                0,
+                                0,
+                                3,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Lord Henry Wotton",
+                    "x": -3.2450871084194652,
+                    "y": 90,
+                    "z": -3.5207635920439833,
+                    "color": "#e377c2",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                4,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                4
+                            ]
+                        },
+                        {
+                            "target": "James Vane",
+                            "emotions": [
+                                4,
+                                0,
+                                0,
+                                3,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "layer_number": 20,
+            "nodes": [
+                {
+                    "name": "Dorian Gray",
+                    "x": 3.3464007945296395,
+                    "y": 95,
+                    "z": 3.1725830015117156,
+                    "color": "#ffbb78",
+                    "relationships": [
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                4,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                4
+                            ]
+                        },
+                        {
+                            "target": "Hetty Merton",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                3,
+                                6,
+                                5,
+                                6,
+                                4,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                3
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Lord Henry Wotton",
+                    "x": -4.5153163303204575,
+                    "y": 95,
+                    "z": 1.8274169984882815,
+                    "color": "#e377c2",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                4,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                4
+                            ]
+                        },
+                        {
+                            "target": "Hetty Merton",
+                            "emotions": [
+                                5,
+                                0,
+                                0,
+                                3,
+                                5,
+                                4,
+                                5,
+                                4,
+                                5,
+                                4,
+                                5,
+                                4,
+                                5,
+                                3
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Hetty Merton",
+                    "x": 1.1689155357908256,
+                    "y": 95,
+                    "z": -5.0,
+                    "color": "#98df8a",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                6,
+                                0,
+                                0,
+                                3,
+                                6,
+                                5,
+                                6,
+                                4,
+                                6,
+                                5,
+                                6,
+                                5,
+                                6,
+                                3
+                            ]
+                        },
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                5,
+                                0,
+                                0,
+                                3,
+                                5,
+                                4,
+                                5,
+                                4,
+                                5,
+                                4,
+                                5,
+                                4,
+                                5,
+                                3
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "layer_number": 21,
+            "nodes": [
+                {
+                    "name": "Dorian Gray",
+                    "x": -2.3341000195494286,
+                    "y": 100,
+                    "z": -3.7424084410769867,
+                    "color": "#ffbb78",
+                    "relationships": [
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                4,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                4
+                            ]
+                        },
+                        {
+                            "target": "James Vane",
+                            "emotions": [
+                                5,
+                                0,
+                                0,
+                                4,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Lord Henry Wotton",
+                    "x": -2.6658999804505683,
+                    "y": 100,
+                    "z": 4.095709714867394,
+                    "color": "#e377c2",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                7,
+                                0,
+                                0,
+                                4,
+                                7,
+                                6,
+                                7,
+                                5,
+                                7,
+                                6,
+                                7,
+                                6,
+                                7,
+                                4
+                            ]
+                        },
+                        {
+                            "target": "James Vane",
+                            "emotions": [
+                                4,
+                                0,
+                                0,
+                                3,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "James Vane",
+                    "x": 5.0,
+                    "y": 100,
+                    "z": -0.3533012737904073,
+                    "color": "#d62728",
+                    "relationships": [
+                        {
+                            "target": "Dorian Gray",
+                            "emotions": [
+                                5,
+                                0,
+                                0,
+                                4,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5
+                            ]
+                        },
+                        {
+                            "target": "Lord Henry Wotton",
+                            "emotions": [
+                                4,
+                                0,
+                                0,
+                                3,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4,
+                                4
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
