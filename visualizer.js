@@ -44,11 +44,13 @@ class Node {
     });
   }
 }
+let sceneGroup; // Declare the variable globally
 
-// Function to initialize the scene
 function setScene() {
   scene = new THREE.Scene();
-  console.log("Scene initialized");
+  sceneGroup = new THREE.Group(); // Initialize sceneGroup
+  scene.add(sceneGroup); // Add it to the scene
+  console.log("Scene and sceneGroup initialized");
 }
 
 // Function to set the renderer
@@ -94,9 +96,12 @@ function placeNode(nodeObject, x, y, z) {
   nodeMeshes[nodeMesh.name] = nodeMesh; // Store in global mesh tracker
   nodes.push({ object: nodeObject, mesh: nodeMesh }); // Add to global nodes array
 
-  scene.add(nodeMesh);
+  sceneGroup.add(nodeMesh); // Add to sceneGroup instead of directly to scene
   console.log(`Node "${nodeMesh.name}" placed at (${x}, ${y}, ${z})`);
 }
+
+
+
 async function loadAndPlotNodes(jsonFile) {
   try {
     if (!scene) setScene(); // Ensure the scene is initialized before adding nodes
@@ -907,17 +912,18 @@ function loadSelectedBook() {
 }
 
 function clearScene() {
-  if (!scene) {
-    console.error("Scene is not initialized. Cannot clear.");
+  if (!sceneGroup) {
+    console.error("SceneGroup is not initialized. Cannot clear.");
     return;
   }
   console.log("Clearing the scene...");
-  
-  while (scene.children.length > 0) {
-    scene.remove(scene.children[0]);
+
+  while (sceneGroup.children.length > 0) {
+    sceneGroup.remove(sceneGroup.children[0]);
   }
-  setGridHelper(); // Re-add grid helper
+  setGridHelper(); // Re-add grid helper to the main scene
 }
+
 
 
 // Function to clear previous data or scene
