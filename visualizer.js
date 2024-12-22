@@ -458,12 +458,34 @@ function plotArchingBridgeEdge(sourceMesh, targetMesh, lowColor, highColor) {
 }
 
 function plotWavyParticleEdge(sourceMesh, targetMesh, lowColor, highColor) {
-  const wavyLine = new THREE.Line(geometry, material);
-  sceneGroup.add(wavyLine); // Add to sceneGroup
+  const sourcePos = sourceMesh.position;
+  const targetPos = targetMesh.position;
 
-  const particle = new THREE.Mesh(particleGeometry, particleMaterial);
-  sceneGroup.add(particle); // Add to sceneGroup
+  // Generate points for the wavy line
+  const points = [];
+  const waveFrequency = 5; // Adjust frequency for more/less waves
+  const waveAmplitude = 0.2; // Adjust amplitude for height of the wave
+  const segments = 50; // Number of segments in the wave
+
+  for (let i = 0; i <= segments; i++) {
+    const t = i / segments;
+    const x = THREE.MathUtils.lerp(sourcePos.x, targetPos.x, t);
+    const y = THREE.MathUtils.lerp(sourcePos.y, targetPos.y, t) + Math.sin(t * waveFrequency * Math.PI) * waveAmplitude;
+    const z = THREE.MathUtils.lerp(sourcePos.z, targetPos.z, t);
+    points.push(new THREE.Vector3(x, y, z));
+  }
+
+  // Create a BufferGeometry for the wave
+  const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+  // Create the material
+  const material = new THREE.LineBasicMaterial({ color: lowColor });
+
+  // Create the line and add to sceneGroup
+  const wavyLine = new THREE.Line(geometry, material);
+  sceneGroup.add(wavyLine); // Add to sceneGroup to ensure proper cleanup later
 }
+
 
 
 function plotDoubleHelixEdge(sourceMesh, targetMesh, color, twists = 3) {
@@ -946,28 +968,21 @@ function clearScene() {
 
   console.log("Clearing the scene...");
 
-  // Remove all children from the sceneGroup
   while (sceneGroup.children.length > 0) {
     const child = sceneGroup.children[0];
     if (child.geometry) {
-      child.geometry.dispose(); // Dispose of geometry to free up memory
+      child.geometry.dispose();
     }
     if (child.material) {
       if (Array.isArray(child.material)) {
         child.material.forEach((mat) => mat.dispose());
       } else {
-        child.material.dispose(); // Dispose of material to free up memory
+        child.material.dispose();
       }
     }
-    sceneGroup.remove(child); // Remove the child from the group
+    sceneGroup.remove(child);
   }
 
-  // Clear plotted edges and nodes
-  nodes.length = 0; // Reset nodes array
-  Object.keys(nodeMeshes).forEach((key) => delete nodeMeshes[key]);
-  plottedEdges.clear(); // Clear all tracked edges
-
-  // Re-add the grid helper after clearing
   setGridHelper();
 }
 
