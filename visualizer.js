@@ -4,6 +4,7 @@ const nodes = []; // To store all node objects
 const nodeMeshes = {}; // To store node meshes for quick lookup by name
 
 // Node Class Definition with Relationship Data
+let sceneGroup; // Declare sceneGroup globally
 
 let currentBook; // Global Book object to store nodes and their layers
 
@@ -44,14 +45,15 @@ class Node {
     });
   }
 }
-let sceneGroup; // Global variable to group scene objects
 
 function setScene() {
-  scene = new THREE.Scene();
-  sceneGroup = new THREE.Group(); // Initialize sceneGroup
+  scene = new THREE.Scene(); // Initialize the main scene
+  sceneGroup = new THREE.Group(); // Create a group to organize scene objects
   scene.add(sceneGroup); // Add the group to the scene
   console.log("Scene and sceneGroup initialized");
 }
+
+
 // Function to set the renderer
 function setRenderer() {
   renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -113,7 +115,7 @@ async function loadAndPlotNodes(jsonFile) {
 
     console.log(`Loaded JSON: ${data.title}`);
 
-    clearScene(); // Safely clear the scene
+    clearScene(); // Clear the scene using sceneGroup
     nodes.length = 0;
     Object.keys(nodeMeshes).forEach((key) => delete nodeMeshes[key]);
     plottedEdges.clear();
@@ -138,11 +140,13 @@ async function loadAndPlotNodes(jsonFile) {
     currentBook.displayNodes();
 
     const totalChapters = Object.keys(currentBook.layers).length;
-    updateChapterScrollbar(totalChapters); // Update the scrollbar dynamically
+    updateChapterScrollbar(totalChapters);
   } catch (error) {
     console.error("Error loading or parsing JSON:", error);
   }
 }
+
+
 
 function updateChapterScrollbar(totalChapters) {
   const scrollBar = document.getElementById("chapter-scrollbar");
@@ -349,35 +353,22 @@ function plotGlowingThreadEdge(sourceMesh, targetMesh, lowColor, highColor) {
   const sourcePos = sourceMesh.position;
   const targetPos = targetMesh.position;
 
-  // Calculate color based on midpoint height (as a placeholder for trust strength)
-  const trustStrength = (sourcePos.y + targetPos.y) / 2; // Example trust scaling
-  const color = trustStrength > 5 ? highColor : lowColor;
-
   const geometry = new THREE.BufferGeometry().setFromPoints([
     sourcePos.clone(),
     targetPos.clone(),
   ]);
 
   const material = new THREE.LineBasicMaterial({
-    color: color,
+    color: lowColor,
     linewidth: 1,
     transparent: true,
     opacity: 0.8,
   });
 
-  // Create glowing effect
   const line = new THREE.Line(geometry, material);
-  scene.add(line);
-
-  // Add pulsing glow effect
-  const clock = new THREE.Clock();
-  function animateGlow() {
-    const time = clock.getElapsedTime();
-    material.opacity = 0.6 + 0.4 * Math.sin(time * 2); // Pulse between 0.6 and 1
-    requestAnimationFrame(animateGlow);
-  }
-  animateGlow();
+  sceneGroup.add(line); // Add to sceneGroup
 }
+
 function plotArchingBridgeEdge(sourceMesh, targetMesh, lowColor, highColor) {
   const sourcePos = sourceMesh.position;
   const targetPos = targetMesh.position;
@@ -407,43 +398,15 @@ function plotArchingBridgeEdge(sourceMesh, targetMesh, lowColor, highColor) {
   const archLine = new THREE.Line(geometry, material);
   scene.add(archLine);
 }
+
 function plotWavyParticleEdge(sourceMesh, targetMesh, lowColor, highColor) {
-  const points = [];
-  const numPoints = 50;
-  const sourcePos = sourceMesh.position;
-  const targetPos = targetMesh.position;
-
-  // Wavy curve points
-  for (let i = 0; i <= numPoints; i++) {
-    const t = i / numPoints;
-    const x = THREE.MathUtils.lerp(sourcePos.x, targetPos.x, t);
-    const y = THREE.MathUtils.lerp(sourcePos.y, targetPos.y, t) + Math.sin(10 * t) * 0.5; // Wavy motion
-    const z = THREE.MathUtils.lerp(sourcePos.z, targetPos.z, t);
-    points.push(new THREE.Vector3(x, y, z));
-  }
-
-  const geometry = new THREE.BufferGeometry().setFromPoints(points);
-  const material = new THREE.LineBasicMaterial({ color: lowColor, linewidth: 2 });
-
   const wavyLine = new THREE.Line(geometry, material);
-  scene.add(wavyLine);
+  sceneGroup.add(wavyLine); // Add to sceneGroup
 
-  // Add particle flow
-  const particleGeometry = new THREE.SphereGeometry(0.1, 8, 8);
-  const particleMaterial = new THREE.MeshBasicMaterial({ color: highColor });
   const particle = new THREE.Mesh(particleGeometry, particleMaterial);
-  scene.add(particle);
-
-  let t = 0;
-  function animateParticles() {
-    t += 0.01;
-    const index = Math.floor(t * numPoints) % points.length;
-    const position = points[index];
-    particle.position.set(position.x, position.y, position.z);
-    requestAnimationFrame(animateParticles);
-  }
-  animateParticles();
+  sceneGroup.add(particle); // Add to sceneGroup
 }
+
 
 function plotDoubleHelixEdge(sourceMesh, targetMesh, color, twists = 3) {
   const points = [];
@@ -535,30 +498,24 @@ function plotQuadraticBezierEdge(sourceMesh, targetMesh, color, offset = 2) {
   const sourcePos = sourceMesh.position;
   const targetPos = targetMesh.position;
 
-  // Calculate the control point in the middle, offset along Y-axis
   const controlPoint = new THREE.Vector3(
-    (sourcePos.x + targetPos.x) / 2,    // Midpoint X
-    (sourcePos.y + targetPos.y) / 2 + offset, // Offset upward in Y
-    sourcePos.z // Keep Z fixed
+    (sourcePos.x + targetPos.x) / 2,
+    (sourcePos.y + targetPos.y) / 2 + offset,
+    sourcePos.z
   );
 
-  // Create a Quadratic Bézier Curve on the X-Y plane
   const curve = new THREE.QuadraticBezierCurve3(
-    new THREE.Vector3(sourcePos.x, sourcePos.y, sourcePos.z), // Start point
-    controlPoint, // Control point
-    new THREE.Vector3(targetPos.x, targetPos.y, targetPos.z)  // End point
+    sourcePos.clone(),
+    controlPoint,
+    targetPos.clone()
   );
 
-  // Generate points for the curve
   const points = curve.getPoints(50);
-
-  // Create geometry and material for the curve
   const geometry = new THREE.BufferGeometry().setFromPoints(points);
-  const material = new THREE.LineBasicMaterial({ color: color, linewidth: 2 });
+  const material = new THREE.LineBasicMaterial({ color });
 
-  // Create a line object and add it to the scene
   const bezierLine = new THREE.Line(geometry, material);
-  scene.add(bezierLine);
+  sceneGroup.add(bezierLine); // Add to sceneGroup
 }
 
 function plotThickGlowingLine(sourceMesh, targetMesh, color = 0x9400D3, lineWidth = 0.1) {
@@ -828,7 +785,7 @@ function plotAllEdges() {
 // Master function to initialize everything
 // Master function to initialize everything
 function make_scene(jsonFile) {
-  setScene();
+  setScene(); // Initialize scene and sceneGroup
   setRenderer();
   setCamera();
   setGridHelper();
@@ -843,6 +800,7 @@ function make_scene(jsonFile) {
   }
   animate();
 }
+
 
 
 
