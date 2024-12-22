@@ -853,7 +853,8 @@ function make_scene(jsonFile) {
 
   function animate() {
     requestAnimationFrame(animate);
-    controls.update();
+    TWEEN.update(); // Update TWEEN animations
+    controls.update(); // Update controls if necessary
     renderer.render(scene, camera);
   }
   animate();
