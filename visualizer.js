@@ -853,10 +853,18 @@ function make_scene(jsonFile) {
 
   function animate() {
     requestAnimationFrame(animate);
-    TWEEN.update(); // Update TWEEN animations
-    controls.update(); // Update controls if necessary
+
+    // Update TWEEN animations
+    if (typeof TWEEN !== 'undefined') {
+        TWEEN.update();
+    } else {
+        console.error('TWEEN is not defined');
+    }
+
+    controls.update(); // Ensure OrbitControls work
     renderer.render(scene, camera);
-  }
+}
+
   animate();
 }
 
