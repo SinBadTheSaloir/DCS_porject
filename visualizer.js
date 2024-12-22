@@ -367,21 +367,22 @@ function plotRespectEdge(sourceMesh, targetMesh) {
 }
 
 function plotCommunicationEdge(sourceMesh, targetMesh) {
-  const points = [
-    sourceMesh.position.clone(),
-    targetMesh.position.clone(),
-  ];
-  const geometry = new THREE.BufferGeometry().setFromPoints(points);
+  const sourcePos = sourceMesh.position;
+  const targetPos = targetMesh.position;
+
+  const points = [sourcePos.clone(), targetPos.clone()];
+  const geometry = new THREE.BufferGeometry().setFromPoints(points); // Proper geometry initialization
   const material = new THREE.LineBasicMaterial({
     color: 0x87cefa, // Light blue
-    linewidth: 1,
+    linewidth: 2,
   });
 
   const line = new THREE.Line(geometry, material);
-  sceneGroup.add(line); // Add to sceneGroup
+  sceneGroup.add(line);
 
   console.log("Communication edge plotted.");
 }
+
 
 
 function plotSocialStandingEdge(sourceMesh, targetMesh) {
@@ -475,8 +476,8 @@ function plotWavyParticleEdge(sourceMesh, targetMesh, lowColor = 0x00008b, highC
   const targetPos = targetMesh.position;
 
   // Define wave parameters
-  const waveFrequency = 5; // Number of wave oscillations
-  const waveAmplitude = 0.2; // Height of the wave
+  const waveFrequency = 5; // Number of oscillations
+  const waveAmplitude = 0.5; // Height of the wave
   const segments = 50; // Number of points in the wave
 
   // Generate wave points
@@ -489,7 +490,7 @@ function plotWavyParticleEdge(sourceMesh, targetMesh, lowColor = 0x00008b, highC
     points.push(new THREE.Vector3(x, y, z));
   }
 
-  // Create geometry and material
+  // Properly initialize geometry and material
   const geometry = new THREE.BufferGeometry().setFromPoints(points);
   const material = new THREE.LineBasicMaterial({
     color: lowColor,
@@ -502,6 +503,7 @@ function plotWavyParticleEdge(sourceMesh, targetMesh, lowColor = 0x00008b, highC
 
   console.log("Wavy particle edge plotted.");
 }
+
 
 
 
@@ -702,38 +704,20 @@ function plotDashedLine(sourceMesh, targetMesh, color) {
 const EDGE_OFFSET = 0.2; // Constant for offset spacing
 const plottedEdges = new Map(); // Map to track edges and prevent overlap
 
-function plotEdgeWithOffset(sourceMesh, targetMesh, emotions) {
+function plotEdgeWithOffset(sourceMesh, targetMesh, emotions, currentLayer) {
   emotions.forEach((weight, index) => {
-    if (weight > 0 && EDGE_PLOT_FUNCTIONS[index]) {
-      const edgeKey = `${sourceMesh.name}-${targetMesh.name}-${index}`;
-      const reverseKey = `${targetMesh.name}-${sourceMesh.name}-${index}`;
-
-      // Check for duplicate edges
-      const existingCount = plottedEdges.get(edgeKey) || 0;
-      plottedEdges.set(edgeKey, existingCount + 1);
-
-      const offset = existingCount * EDGE_OFFSET; // Apply offset per duplicate edge
-
-      // Adjust positions with offset
-      const sourcePos = sourceMesh.position.clone();
-      const targetPos = targetMesh.position.clone();
-
-      // Offset positions slightly in X and Y
-      sourcePos.x += existingCount % 2 === 0 ? offset : -offset; // Alternate direction
-      targetPos.x += existingCount % 2 === 0 ? offset : -offset;
-
-      sourcePos.y += existingCount % 2 === 1 ? offset : -offset; // Alternate direction
-      targetPos.y += existingCount % 2 === 1 ? offset : -offset;
-
-      // Call the appropriate plot function
-      EDGE_PLOT_FUNCTIONS[index].plot(
-        { position: sourcePos },
-        { position: targetPos },
-        EDGE_PLOT_FUNCTIONS[index].color
-      );
+    if (weight > 0) {
+      if (index === 0) {
+        plotWavyParticleEdge(sourceMesh, targetMesh, 0x00008b, 0x87cefa); // Ensure geometry is handled properly
+      } else if (index === 1) {
+        plotCommunicationEdge(sourceMesh, targetMesh); // Ensure this function is updated
+      } else {
+        console.warn(`Unhandled emotion index: ${index}`);
+      }
     }
   });
 }
+
 
 
 
