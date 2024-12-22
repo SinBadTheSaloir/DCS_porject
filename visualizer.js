@@ -633,8 +633,11 @@ function plotStraightLine(sourceMesh, targetMesh, color) {
   ];
   const geometry = new THREE.BufferGeometry().setFromPoints(points);
   const material = new THREE.LineBasicMaterial({ color });
-  scene.add(new THREE.Line(geometry, material));
+
+  const line = new THREE.Line(geometry, material);
+  sceneGroup.add(line); // Add to sceneGroup instead of scene
 }
+
 
 function plotDashedLine(sourceMesh, targetMesh, color) {
   const points = [
@@ -769,15 +772,13 @@ async function loadAndPlotNodes(jsonFile) {
 
     console.log(`Loaded JSON: ${data.title}`);
 
-    clearScene(); // Clear existing nodes
-    nodes.length = 0; // Reset nodes array
-    Object.keys(nodeMeshes).forEach((key) => delete nodeMeshes[key]);
-    plottedEdges.clear();
+    clearScene(); // Clear the scene before plotting new nodes and edges
+
+    currentBook = new Book(data.title);
 
     // Process nodes and layers
-    currentBook = new Book(data.title);
     data.layers.forEach((layer) => {
-      if (!layer.nodes) return; // Ensure nodes exist
+      if (!layer.nodes) return;
       layer.nodes.forEach((nodeData) => {
         const node = new Node(
           nodeData.name,
@@ -802,6 +803,7 @@ async function loadAndPlotNodes(jsonFile) {
     console.error("Error loading or parsing JSON:", error);
   }
 }
+
 
 // Modified function to load a selected book
 function loadSelectedBook() {
@@ -941,12 +943,32 @@ function clearScene() {
     console.error("SceneGroup is not initialized. Cannot clear.");
     return;
   }
+
   console.log("Clearing the scene...");
 
+  // Remove all children from the sceneGroup
   while (sceneGroup.children.length > 0) {
-    sceneGroup.remove(sceneGroup.children[0]);
+    const child = sceneGroup.children[0];
+    if (child.geometry) {
+      child.geometry.dispose(); // Dispose of geometry to free up memory
+    }
+    if (child.material) {
+      if (Array.isArray(child.material)) {
+        child.material.forEach((mat) => mat.dispose());
+      } else {
+        child.material.dispose(); // Dispose of material to free up memory
+      }
+    }
+    sceneGroup.remove(child); // Remove the child from the group
   }
-  setGridHelper(); // Re-add grid helper to the main scene
+
+  // Clear plotted edges and nodes
+  nodes.length = 0; // Reset nodes array
+  Object.keys(nodeMeshes).forEach((key) => delete nodeMeshes[key]);
+  plottedEdges.clear(); // Clear all tracked edges
+
+  // Re-add the grid helper after clearing
+  setGridHelper();
 }
 
 
