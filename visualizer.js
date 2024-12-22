@@ -183,8 +183,6 @@ const EDGE_PLOT_FUNCTIONS = {
   7: { color: 0xffffff, plot: plotTrustEdge },             // Trust
   8: { color: 0xffd700, plot: plotRespectEdge },           // Respect
   9: { color: 0x87cefa, plot: plotCommunicationEdge },     // Communication
-  10: { color: 0x00ff00, plot: (src) => plotPastExperienceEdge(src, "Shared History") }, // Shared History
-  11: { color: 0xff0000, plot: (src) => plotPastExperienceEdge(src, "Conflict History") } // Conflict History
 };
 
 
@@ -703,20 +701,24 @@ function plotDashedLine(sourceMesh, targetMesh, color) {
 ////////////////////////////////////// 
 const EDGE_OFFSET = 0.2; // Constant for offset spacing
 const plottedEdges = new Map(); // Map to track edges and prevent overlap
-
 function plotEdgeWithOffset(sourceMesh, targetMesh, emotions, currentLayer) {
   emotions.forEach((weight, index) => {
     if (weight > 0) {
-      if (index === 0) {
-        plotWavyParticleEdge(sourceMesh, targetMesh, 0x00008b, 0x87cefa); // Ensure geometry is handled properly
-      } else if (index === 1) {
-        plotCommunicationEdge(sourceMesh, targetMesh); // Ensure this function is updated
-      } else {
-        console.warn(`Unhandled emotion index: ${index}`);
+      try {
+        if (index === 0) {
+          plotWavyParticleEdge(sourceMesh, targetMesh, 0x00008b, 0x87cefa); // Ensure geometry is handled properly
+        } else if (index === 1) {
+          plotCommunicationEdge(sourceMesh, targetMesh); // Ensure this function is updated
+        } else {
+          console.warn(`Unhandled emotion index: ${index}`);
+        }
+      } catch (error) {
+        console.error(`Error plotting edge (index: ${index}):`, error);
       }
     }
   });
 }
+
 
 
 
