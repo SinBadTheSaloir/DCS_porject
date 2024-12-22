@@ -8,14 +8,10 @@ const nodeMeshes = {}; // To store node meshes for quick lookup by name
 
 // Function to initialize the scene and group
 function setScene() {
-  if (!sceneGroup) { // Check if sceneGroup is undefined or null
-    scene = new THREE.Scene();
-    sceneGroup = new THREE.Group(); // Initialize sceneGroup
-    scene.add(sceneGroup); // Add the group to the scene
-    console.log("Scene and sceneGroup initialized");
-  } else {
-    console.warn("Scene and sceneGroup are already initialized.");
-  }
+  scene = new THREE.Scene(); // Initialize scene
+  sceneGroup = new THREE.Group(); // Initialize sceneGroup
+  scene.add(sceneGroup); // Add the group to the scene
+  console.log("Scene and sceneGroup initialized");
 }
 
 
@@ -68,7 +64,6 @@ function setRenderer() {
   document.body.appendChild(renderer.domElement);
   console.log("Renderer set and added to DOM");
 }
-
 // Function to set the camera
 function setCamera() {
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -848,7 +843,7 @@ function plotAllEdges() {
 // Master function to initialize everything
 // Master function to initialize everything
 function make_scene(jsonFile) {
-  setScene(); // Initialize the scene and sceneGroup
+  setScene(); // Ensure the scene and sceneGroup are initialized
   setRenderer();
   setCamera();
   setGridHelper();
@@ -859,7 +854,6 @@ function make_scene(jsonFile) {
   function animate() {
     requestAnimationFrame(animate);
     controls.update();
-    TWEEN.update(); // Include for smooth transitions
     renderer.render(scene, camera);
   }
   animate();
