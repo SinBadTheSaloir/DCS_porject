@@ -1,12 +1,24 @@
 // Global variables
 let scene, camera, renderer, controls;
+let sceneGroup; // Declare sceneGroup as a global variable
+let currentBook; // Global Book object to store nodes and their layers
+
 const nodes = []; // To store all node objects
 const nodeMeshes = {}; // To store node meshes for quick lookup by name
 
-// Node Class Definition with Relationship Data
-let sceneGroup; // Declare sceneGroup globally
+// Function to initialize the scene and group
+function setScene() {
+  if (!sceneGroup) { // Check if sceneGroup is undefined or null
+    scene = new THREE.Scene();
+    sceneGroup = new THREE.Group(); // Initialize sceneGroup
+    scene.add(sceneGroup); // Add the group to the scene
+    console.log("Scene and sceneGroup initialized");
+  } else {
+    console.warn("Scene and sceneGroup are already initialized.");
+  }
+}
 
-let currentBook; // Global Book object to store nodes and their layers
+
 
 // Updated Book class to store nodes by layer
 
@@ -46,12 +58,7 @@ class Node {
   }
 }
 
-function setScene() {
-  scene = new THREE.Scene(); // Initialize the main scene
-  sceneGroup = new THREE.Group(); // Create a group to organize scene objects
-  scene.add(sceneGroup); // Add the group to the scene
-  console.log("Scene and sceneGroup initialized");
-}
+
 
 
 // Function to set the renderer
@@ -785,7 +792,7 @@ function plotAllEdges() {
 // Master function to initialize everything
 // Master function to initialize everything
 function make_scene(jsonFile) {
-  setScene(); // Initialize scene and sceneGroup
+  setScene(); // Initialize the scene and sceneGroup
   setRenderer();
   setCamera();
   setGridHelper();
@@ -800,6 +807,7 @@ function make_scene(jsonFile) {
   }
   animate();
 }
+
 
 
 
