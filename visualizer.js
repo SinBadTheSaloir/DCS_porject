@@ -44,15 +44,14 @@ class Node {
     });
   }
 }
-let sceneGroup; // Declare the variable globally
+let sceneGroup; // Global variable to group scene objects
 
 function setScene() {
   scene = new THREE.Scene();
   sceneGroup = new THREE.Group(); // Initialize sceneGroup
-  scene.add(sceneGroup); // Add it to the scene
+  scene.add(sceneGroup); // Add the group to the scene
   console.log("Scene and sceneGroup initialized");
 }
-
 // Function to set the renderer
 function setRenderer() {
   renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -923,6 +922,7 @@ function clearScene() {
   }
   setGridHelper(); // Re-add grid helper to the main scene
 }
+
 
 
 
