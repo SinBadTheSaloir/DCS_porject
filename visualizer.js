@@ -367,7 +367,20 @@ function plotRespectEdge(sourceMesh, targetMesh) {
 }
 
 function plotCommunicationEdge(sourceMesh, targetMesh) {
-  plotWavyParticleEdge(sourceMesh, targetMesh, 0x00008b, 0x87cefa); // Dark Blue to Sky Blue
+  const points = [
+    sourceMesh.position.clone(),
+    targetMesh.position.clone(),
+  ];
+  const geometry = new THREE.BufferGeometry().setFromPoints(points);
+  const material = new THREE.LineBasicMaterial({
+    color: 0x87cefa, // Light blue
+    linewidth: 1,
+  });
+
+  const line = new THREE.Line(geometry, material);
+  sceneGroup.add(line); // Add to sceneGroup
+
+  console.log("Communication edge plotted.");
 }
 
 
@@ -457,16 +470,17 @@ function plotArchingBridgeEdge(sourceMesh, targetMesh, lowColor, highColor) {
   scene.add(archLine);
 }
 
-function plotWavyParticleEdge(sourceMesh, targetMesh, lowColor, highColor) {
+function plotWavyParticleEdge(sourceMesh, targetMesh, lowColor = 0x00008b, highColor = 0x87cefa) {
   const sourcePos = sourceMesh.position;
   const targetPos = targetMesh.position;
 
-  // Generate points for the wavy line
-  const points = [];
-  const waveFrequency = 5; // Adjust frequency for more/less waves
-  const waveAmplitude = 0.2; // Adjust amplitude for height of the wave
-  const segments = 50; // Number of segments in the wave
+  // Define wave parameters
+  const waveFrequency = 5; // Number of wave oscillations
+  const waveAmplitude = 0.2; // Height of the wave
+  const segments = 50; // Number of points in the wave
 
+  // Generate wave points
+  const points = [];
   for (let i = 0; i <= segments; i++) {
     const t = i / segments;
     const x = THREE.MathUtils.lerp(sourcePos.x, targetPos.x, t);
@@ -475,16 +489,20 @@ function plotWavyParticleEdge(sourceMesh, targetMesh, lowColor, highColor) {
     points.push(new THREE.Vector3(x, y, z));
   }
 
-  // Create a BufferGeometry for the wave
+  // Create geometry and material
   const geometry = new THREE.BufferGeometry().setFromPoints(points);
+  const material = new THREE.LineBasicMaterial({
+    color: lowColor,
+    linewidth: 2,
+  });
 
-  // Create the material
-  const material = new THREE.LineBasicMaterial({ color: lowColor });
-
-  // Create the line and add to sceneGroup
+  // Create the line object and add to sceneGroup
   const wavyLine = new THREE.Line(geometry, material);
-  sceneGroup.add(wavyLine); // Add to sceneGroup to ensure proper cleanup later
+  sceneGroup.add(wavyLine);
+
+  console.log("Wavy particle edge plotted.");
 }
+
 
 
 
@@ -983,8 +1001,9 @@ function clearScene() {
     sceneGroup.remove(child);
   }
 
-  setGridHelper();
+  setGridHelper(); // Re-add grid helper to the main scene
 }
+
 
 
 
