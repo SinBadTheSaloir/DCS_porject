@@ -876,7 +876,17 @@ const books = [
   new Book("The Metamorphosis", "./book_json_files/The_Metamorphosis.json"),
   new Book("The Odyssey", "./book_json_files/The_Odyssey.json"),
   new Book("The Picture of Dorian Gray", "./book_json_files/The_Picture_of_Dorian_Gray.json"),
-  new Book("The Strange Case of Dr. Jekyll and Mr. Hyde", "./book_json_files/The_Strange_Case_of_Dr._Jekyll_and_Mr._Hyde.json")
+  new Book("The Strange Case of Dr. Jekyll and Mr. Hyde", "./book_json_files/The_Strange_Case_of_Dr._Jekyll_and_Mr._Hyde.json"),
+  new Book("Data Edge freindship", "./book_json_files/freindship.json"),
+  new Book("Data Edge Family", "./book_json_files/Family.json"),
+  new Book("Data Edge Romantic", "./book_json_files/Romantic.json"),
+  new Book("Data Edge enmies", "./book_json_files/enmies.json"),
+  new Book("Data Edge Political", "./book_json_files/Political.json"),
+  new Book("Data Edge Employment", "./book_json_files/Employment.json"),
+  new Book("Data Edge Social", "./book_json_files/Social.json"),
+  new Book("Data Edge Trust", "./book_json_files/Trust.json"),
+  new Book("Data Edge Respect", "./book_json_files/Respect.json"),
+  new Book("Data Edge Communication", "./book_json_files/Communication.json")
 ];
 
 
